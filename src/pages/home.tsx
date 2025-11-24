@@ -19,8 +19,6 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [username, setUsername] = useState("");
 
-  // Dynamic logo based on theme state
-  const logoPath = theme === "dark" ? "/logo-white.svg" : "/logo-colour.svg";
 
   useEffect(() => {
     // Simulate connection check

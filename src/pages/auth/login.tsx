@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Heart, ArrowLeft, Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 
-export default function LoginPage() {
+export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

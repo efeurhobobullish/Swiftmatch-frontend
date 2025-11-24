@@ -4,14 +4,16 @@ import { Loader } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import api from "@/api/axios";
 import { Pattern, ButtonWithLoader, ModeToggle } from "@/components/ui";
-import { libraries } from "@/constants/data";
+import { popularGames } from "@/constants/data";
 import {
-  Brain,
-  Zap,
-  Github,
+  Users,
+  Swords,
+  Trophy,
+  MessageCircle,
+  Gamepad2,
   Sparkles,
-  Cpu,
-  Globe
+  Crown,
+  Mic
 } from "lucide-react";
 import { useThemeStore } from "@/store";
 
@@ -42,32 +44,32 @@ export default function Home() {
 
   const features = [
     {
-      icon: Brain,
-      title: "Advanced AI Models",
-      desc: "Access cutting-edge AI models with real-time processing and intelligent responses.",
+      icon: Users,
+      title: "Find Teammates",
+      desc: "Connect with players at your skill level for COD, PUBG, Free Fire and more.",
     },
     {
-      icon: Zap,
-      title: "Lightning Fast",
-      desc: "Experience sub-second response times with our optimized AI infrastructure.",
+      icon: Swords,
+      title: "Competitive Play",
+      desc: "Join ranked matches and climb the leaderboards with your squad.",
     },
     {
-      icon: Cpu,
-      title: "Multi-Modal AI",
-      desc: "Text, image, and voice processing in one powerful platform.",
+      icon: MessageCircle,
+      title: "Voice Chat Ready",
+      desc: "Integrated voice chat for seamless communication during gameplay.",
     },
     {
-      icon: Globe,
-      title: "Global Scale",
-      desc: "Deploy AI solutions that scale seamlessly across the globe.",
+      icon: Trophy,
+      title: "Achievements & Stats",
+      desc: "Track your progress, earn badges, and showcase your gaming skills.",
     },
   ];
 
   const stats = [
-    { value: "99.9%", label: "Uptime" },
-    { value: "<500ms", label: "Avg Response" },
-    { value: "10M+", label: "Requests/Day" },
-    { value: "50+", label: "AI Models" },
+    { value: "50K+", label: "Active Gamers" },
+    { value: "100+", label: "Games Supported" },
+    { value: "5K+", label: "Daily Matches" },
+    { value: "10K+", label: "Squads Formed" },
   ];
 
   return (
@@ -77,10 +79,10 @@ export default function Home() {
         <header className="w-full p-6 md:p-8 flex justify-between items-center max-w-7xl mx-auto z-20">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center">
-              <img src={logoPath} alt="AI Platform Logo" className="w-full h-full object-contain" />
+              <img src={logoPath} alt="GameSquad Logo" className="w-full h-full object-contain" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-main to-main/70 bg-clip-text text-transparent">
-              NeuralCore
+            <span className="text-xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+              GameSquad
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -93,11 +95,11 @@ export default function Home() {
             {isLoading ? (
               <div className="center gap-3 text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div className="relative">
-                  <Loader size={28} className="animate-spin text-main" />
-                  <Sparkles className="absolute -top-1 -right-1 w-4 h-4 text-main animate-pulse" />
+                  <Loader size={28} className="animate-spin text-orange-500" />
+                  <Gamepad2 className="absolute -top-1 -right-1 w-4 h-4 text-orange-500 animate-pulse" />
                 </div>
-                <p className="text-main/80 text-sm font-medium animate-pulse">
-                  Initializing AI Services...
+                <p className="text-orange-500/80 text-sm font-medium animate-pulse">
+                  Loading Game Services...
                 </p>
               </div>
             ) : (
@@ -118,9 +120,9 @@ export default function Home() {
                   >
                     <div className="relative">
                       <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center">
-                        <img src={logoPath} alt="AI Platform Logo" className="w-full h-full object-contain" />
+                        <img src={logoPath} alt="GameSquad Logo" className="w-full h-full object-contain" />
                       </div>
-                      <div className="absolute -inset-4 bg-gradient-to-r from-main/20 to-main/5 rounded-full blur-xl -z-10" />
+                      <div className="absolute -inset-4 bg-gradient-to-r from-orange-500/20 to-red-500/5 rounded-full blur-xl -z-10" />
                     </div>
                   </motion.div>
 
@@ -128,9 +130,9 @@ export default function Home() {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.9 }}
-                    className="text-5xl md:text-7xl lg:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-main via-main to-main/80 tracking-tight"
+                    className="text-5xl md:text-7xl lg:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-orange-400 tracking-tight"
                   >
-                    NeuralCore
+                    GameSquad
                   </motion.h1>
 
                   <motion.div
@@ -140,14 +142,14 @@ export default function Home() {
                     className="space-y-4"
                   >
                     <p className="text-muted text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-2">
-                      <Sparkles className="w-4 h-4" />
-                      Next Generation AI Platform
-                      <Sparkles className="w-4 h-4" />
+                      <Crown className="w-4 h-4" />
+                      Where Gamers Connect
+                      <Crown className="w-4 h-4" />
                     </p>
                     <p className="text-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-                      Build intelligent applications with our powerful AI infrastructure. 
-                      <span className="block text-main font-medium mt-2">
-                        Smarter, Faster, Better.
+                      Team up with players worldwide for COD, PUBG, Free Fire and more.
+                      <span className="block text-orange-500 font-medium mt-2">
+                        Find Your Squad. Dominate Together.
                       </span>
                     </p>
                   </motion.div>
@@ -162,7 +164,7 @@ export default function Home() {
                 >
                   {stats.map((stat, idx) => (
                     <div key={idx} className="text-center p-4 rounded-2xl bg-secondary/50 border border-line">
-                      <div className="text-2xl md:text-3xl font-bold text-main mb-1">{stat.value}</div>
+                      <div className="text-2xl md:text-3xl font-bold text-orange-500 mb-1">{stat.value}</div>
                       <div className="text-xs text-muted uppercase tracking-wider">{stat.label}</div>
                     </div>
                   ))}
@@ -177,16 +179,16 @@ export default function Home() {
                 >
                   <ButtonWithLoader
                     loading={false}
-                    initialText="Get Started Free"
+                    initialText="Find Your Squad"
                     loadingText=""
                     onClick={handleGetStarted}
-                    className="h-12 md:h-14 px-8 md:px-10 rounded-full text-base md:text-lg min-w-[200px] shadow-xl bg-main text-background hover:bg-main/90 transition-all hover:shadow-2xl hover:scale-105"
+                    className="h-12 md:h-14 px-8 md:px-10 rounded-full text-base md:text-lg min-w-[200px] shadow-xl bg-gradient-to-r from-orange-500 to-red-500 text-background hover:from-orange-600 hover:to-red-600 transition-all hover:shadow-2xl hover:scale-105"
                   />
                   <button
-                    onClick={() => window.open("https://github.com/efeurhobobullish", "_blank")}
-                    className="flex items-center justify-center gap-2 h-12 md:h-14 px-8 rounded-full text-sm md:text-base font-medium text-muted hover:text-main transition-all border border-line hover:border-main/50 bg-transparent w-full sm:w-auto hover:scale-105"
+                    onClick={() => window.location.href = "/games"}
+                    className="flex items-center justify-center gap-2 h-12 md:h-14 px-8 rounded-full text-sm md:text-base font-medium text-muted hover:text-orange-500 transition-all border border-line hover:border-orange-500/50 bg-transparent w-full sm:w-auto hover:scale-105"
                   >
-                    <Github size={20} /> View on GitHub
+                    <Gamepad2 size={20} /> Browse Games
                   </button>
                 </motion.div>
 
@@ -205,17 +207,17 @@ export default function Home() {
                       transition={{ delay: 1.9 + idx * 0.1 }}
                       className="p-6 rounded-2xl border border-line bg-background hover:bg-secondary/40 transition-all group cursor-default hover:-translate-y-2 duration-300 relative overflow-hidden"
                     >
-                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-main to-main/50 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-main/10 to-main/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <feature.icon size={24} className="text-main" />
+                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-red-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/10 to-red-500/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <feature.icon size={24} className="text-orange-500" />
                       </div>
-                      <h3 className="font-bold text-lg mb-3 text-main">{feature.title}</h3>
+                      <h3 className="font-bold text-lg mb-3 text-orange-500">{feature.title}</h3>
                       <p className="text-sm text-muted leading-relaxed">{feature.desc}</p>
                     </motion.div>
                   ))}
                 </motion.div>
 
-                {/* Libraries / Tech Stack */}
+                {/* Popular Games */}
                 <motion.div
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -223,15 +225,15 @@ export default function Home() {
                   className="mt-16 md:mt-24 text-center space-y-6 w-full"
                 >
                   <p className="text-muted text-sm uppercase tracking-widest mb-6">
-                    Powered By Advanced Technology
+                    Popular Games
                   </p>
                   <ul className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-4xl mx-auto">
-                    {libraries.map((library) => (
+                    {popularGames.map((game) => (
                       <li
-                        key={library}
-                        className="text-xs font-medium text-muted bg-secondary border border-line rounded-full px-4 py-2 hover:border-main/50 hover:text-main transition-all cursor-default hover:scale-105"
+                        key={game}
+                        className="text-xs font-medium text-muted bg-secondary border border-line rounded-full px-4 py-2 hover:border-orange-500/50 hover:text-orange-500 transition-all cursor-default hover:scale-105"
                       >
-                        {library}
+                        {game}
                       </li>
                     ))}
                   </ul>

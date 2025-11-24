@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { 
   Loader, 
-  Ghost, 
-  ShieldCheck, 
-  Globe, 
-  Zap, 
-  Lock,
-  Fingerprint
+  MessageCircle, 
+  Share2, 
+  Heart, 
+  Sparkles, 
+  ArrowRight,
+  Instagram,
+  Ghost
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import api from "@/api/axios";
@@ -17,18 +18,20 @@ import { useThemeStore } from "@/store";
 export default function Home() {
   const { theme } = useThemeStore();
   const [isLoading, setIsLoading] = useState(true);
+  const [username, setUsername] = useState("");
 
   // Dynamic logo based on theme state
   const logoPath = theme === "dark" ? "/logo-white.svg" : "/logo-black.svg";
 
   useEffect(() => {
+    // Simulate connection check
     const checkServices = async () => {
       setIsLoading(true);
       try {
         await api.get("/");
       } catch (error) {
-        console.error(error);
-        toast.error("Network services are unreachable");
+        // Silent fail or simple log for dev
+        console.log("API check finished");
       } finally {
         setIsLoading(false);
       }
@@ -36,38 +39,37 @@ export default function Home() {
     checkServices();
   }, []);
 
-  const handleGetStarted = () => {
-    window.location.href = "/signup";
+  const handleGetLink = () => {
+    if (!username) {
+      toast.error("Please enter a username first");
+      return;
+    }
+    toast.success(`Link created for @${username}!`);
+    // Navigate to signup or dashboard logic here
+    window.location.href = "/signup?user=" + username;
   };
 
-  const features = [
+  const steps = [
     {
       icon: Ghost,
-      title: "Total Anonymity",
-      desc: "Connect without revealing your identity. Your data remains yours alone.",
+      title: "1. Create Account",
+      desc: "Claim your unique anonymous link in seconds.",
     },
     {
-      icon: ShieldCheck,
-      title: "End-to-End Encrypted",
-      desc: "Every message is encrypted. We can't read your chats, and neither can anyone else.",
+      icon: Share2,
+      title: "2. Share Link",
+      desc: "Post it on your Instagram Story, Snapchat, or Twitter.",
     },
     {
-      icon: Globe,
-      title: "Global Network",
-      desc: "Join decentralized communities across the world without borders.",
+      icon: MessageCircle,
+      title: "3. Get Truths",
+      desc: "Receive honest, anonymous messages from your friends.",
     },
     {
-      icon: Zap,
-      title: "Lightning Fast",
-      desc: "Real-time communication with zero latency, optimized for any device.",
+      icon: Sparkles,
+      title: "4. Reply",
+      desc: "Share the best responses back to your story.",
     },
-  ];
-
-  const stats = [
-    { value: "2M+", label: "Hidden Identities" },
-    { value: "150+", label: "Countries" },
-    { value: "100%", label: "Encrypted" },
-    { value: "0", label: "Logs Kept" },
   ];
 
   return (
@@ -76,8 +78,9 @@ export default function Home() {
         {/* Header */}
         <header className="w-full p-6 md:p-8 flex justify-between items-center max-w-7xl mx-auto z-20">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
-              <img src={logoPath} alt="Anonymous Logo" className="w-full h-full object-contain" />
+            <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-main text-background rounded-xl">
+               {/* Simple Icon Logo if image fails, or use img tag provided earlier */}
+               <Ghost className="w-6 h-6 md:w-7 md:h-7" />
             </div>
             <span className="text-xl font-bold tracking-tight text-main">
               Anonymous
@@ -94,126 +97,152 @@ export default function Home() {
               <div className="center gap-3 text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div className="relative">
                   <Loader size={28} className="animate-spin text-main" />
-                  <Ghost className="absolute -top-1 -right-1 w-4 h-4 text-muted animate-pulse" />
                 </div>
-                <p className="text-muted text-sm font-medium animate-pulse">
-                  Establishing Secure Connection...
-                </p>
               </div>
             ) : (
               <motion.div
                 initial={{ y: 40, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: 40, opacity: 0 }}
-                transition={{ delay: 0.5 }}
-                className="space-y-12 text-center w-full"
+                transition={{ delay: 0.3 }}
+                className="space-y-16 text-center w-full"
               >
                 {/* Hero Section */}
-                <div className="space-y-6 max-w-4xl mx-auto">
+                <div className="space-y-8 max-w-3xl mx-auto mt-8 md:mt-0">
                   <motion.div
-                    initial={{ scale: 0.5, opacity: 0 }}
+                    initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.7, type: "spring" }}
-                    className="flex justify-center mb-8"
+                    transition={{ delay: 0.5, type: "spring" }}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-line bg-secondary/50 backdrop-blur-md text-sm font-medium text-muted"
                   >
-                    <div className="relative">
-                      <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center bg-secondary/30 rounded-full border border-line p-6 backdrop-blur-sm">
-                        <img src={logoPath} alt="Anonymous Logo" className="w-full h-full object-contain" />
-                      </div>
-                      <div className="absolute -inset-4 bg-gradient-to-tr from-main/10 to-transparent rounded-full blur-xl -z-10" />
-                    </div>
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    50,000+ messages sent today
                   </motion.div>
 
                   <motion.h1
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.9 }}
-                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-main"
+                    transition={{ delay: 0.7 }}
+                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-main leading-[0.9]"
                   >
-                    Unseen. <span className="text-muted">Untraced.</span>
+                    Send me <br/>
+                    <span className="text-muted">Anonymous</span> <br/>
+                    Messages!
                   </motion.h1>
 
+                  <motion.p
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.9 }}
+                    className="text-muted text-lg md:text-xl max-w-xl mx-auto leading-relaxed"
+                  >
+                    Share your unique link and see what your friends 
+                    <span className="text-main font-semibold italic"> really</span> think. 
+                    No names attached.
+                  </motion.p>
+                  
+                  {/* Interactive Username Input */}
                   <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 1.1 }}
-                    className="space-y-4"
+                    className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto w-full pt-4"
                   >
-                    <p className="text-muted text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-2">
-                      <Fingerprint className="w-4 h-4" />
-                      Secure Identity Protocol
-                      <Fingerprint className="w-4 h-4" />
-                    </p>
-                    <p className="text-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-                      Experience the freedom of true privacy. 
-                      Connect with the world without leaving a digital footprint.
-                      <span className="block text-main font-medium mt-2">
-                        Your identity is your secret to keep.
-                      </span>
-                    </p>
+                    <div className="relative w-full">
+                      <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted font-medium">
+                        anonymous.com/
+                      </div>
+                      <input 
+                        type="text" 
+                        placeholder="username" 
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="w-full h-14 pl-[140px] pr-4 rounded-2xl bg-background border-2 border-line focus:border-main focus:ring-0 text-lg font-medium placeholder:text-muted/50 transition-all"
+                      />
+                    </div>
+                    <ButtonWithLoader
+                      loading={false}
+                      initialText="Get Link"
+                      loadingText=""
+                      onClick={handleGetLink}
+                      className="h-14 px-8 rounded-2xl text-lg font-bold bg-main text-background hover:bg-main/90 transition-all w-full sm:w-auto min-w-[140px] shadow-xl hover:translate-y-[-2px] hover:shadow-2xl"
+                    />
                   </motion.div>
                 </div>
 
-                {/* Stats */}
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 1.3 }}
-                  className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto"
-                >
-                  {stats.map((stat, idx) => (
-                    <div key={idx} className="text-center p-4 rounded-2xl bg-secondary/30 border border-line backdrop-blur-sm">
-                      <div className="text-2xl md:text-3xl font-bold text-main mb-1">{stat.value}</div>
-                      <div className="text-xs text-muted uppercase tracking-wider">{stat.label}</div>
-                    </div>
-                  ))}
-                </motion.div>
-
-                {/* CTA Buttons */}
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 1.5 }}
-                  className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6 w-full sm:w-auto"
-                >
-                  <ButtonWithLoader
-                    loading={false}
-                    initialText="Go Incognito"
-                    loadingText=""
-                    onClick={handleGetStarted}
-                    className="h-12 md:h-14 px-8 md:px-10 rounded-full text-base md:text-lg min-w-[200px] shadow-lg bg-main text-background hover:bg-main/90 transition-all hover:shadow-xl hover:scale-105 border-0"
-                  />
-                  <button
-                    onClick={() => window.location.href = "/about"}
-                    className="flex items-center justify-center gap-2 h-12 md:h-14 px-8 rounded-full text-sm md:text-base font-medium text-muted hover:text-main transition-all border border-line hover:border-main bg-transparent w-full sm:w-auto hover:scale-105"
-                  >
-                    <Lock size={18} /> How it Works
-                  </button>
-                </motion.div>
-
-                {/* Features Grid */}
+                {/* Social Proof / Cards */}
                 <motion.div
                   initial={{ y: 40, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 1.7 }}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16 md:mt-20 w-full"
+                  transition={{ delay: 1.3 }}
+                  className="relative"
                 >
-                  {features.map((feature, idx) => (
-                    <motion.div
-                      key={idx}
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 1.9 + idx * 0.1 }}
-                      className="p-6 rounded-2xl border border-line bg-background hover:bg-secondary/40 transition-all group cursor-default hover:-translate-y-2 duration-300 relative overflow-hidden"
-                    >
-                      <div className="absolute top-0 left-0 w-full h-1 bg-main transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-                      <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <feature.icon size={24} className="text-main" />
+                   {/* Decorative elements behind */}
+                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-purple-500/5 via-transparent to-orange-500/5 blur-3xl rounded-full -z-10" />
+
+                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto px-4">
+                      {/* Fake Message Card 1 */}
+                      <div className="p-6 rounded-3xl bg-background border border-line text-left shadow-sm rotate-[-3deg] hover:rotate-0 transition-transform duration-300">
+                        <div className="flex justify-between items-start mb-4">
+                          <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-500">
+                            <Heart size={20} fill="currentColor" />
+                          </div>
+                          <span className="text-xs text-muted font-mono">12m ago</span>
+                        </div>
+                        <p className="text-lg font-medium text-main">"I've always had a crush on you... just too shy to say it 🙈"</p>
                       </div>
-                      <h3 className="font-bold text-lg mb-3 text-main">{feature.title}</h3>
-                      <p className="text-sm text-muted leading-relaxed">{feature.desc}</p>
-                    </motion.div>
-                  ))}
+
+                      {/* Fake Message Card 2 */}
+                      <div className="p-6 rounded-3xl bg-main text-background border border-main text-left shadow-xl scale-105 z-10">
+                        <div className="flex justify-between items-start mb-4">
+                          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
+                            <Ghost size={20} />
+                          </div>
+                          <span className="text-xs text-white/60 font-mono">2m ago</span>
+                        </div>
+                        <p className="text-lg font-medium">"Where did you get that hoodie you wore today? It looked fire!"</p>
+                      </div>
+
+                      {/* Fake Message Card 3 */}
+                      <div className="p-6 rounded-3xl bg-background border border-line text-left shadow-sm rotate-[3deg] hover:rotate-0 transition-transform duration-300">
+                         <div className="flex justify-between items-start mb-4">
+                          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                            <MessageCircle size={20} />
+                          </div>
+                          <span className="text-xs text-muted font-mono">1h ago</span>
+                        </div>
+                        <p className="text-lg font-medium text-main">"Are you going to the party this weekend?"</p>
+                      </div>
+                   </div>
+                </motion.div>
+
+                {/* How it Works */}
+                <motion.div
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1.5 }}
+                  className="pt-16 w-full max-w-6xl mx-auto"
+                >
+                  <p className="text-muted text-sm uppercase tracking-widest mb-10 font-bold">
+                    How it works
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {steps.map((step, idx) => (
+                      <div
+                        key={idx}
+                        className="flex flex-col items-center p-6 rounded-2xl border border-transparent hover:border-line hover:bg-secondary/30 transition-all duration-300"
+                      >
+                        <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center mb-6 text-main">
+                          <step.icon size={32} strokeWidth={1.5} />
+                        </div>
+                        <h3 className="font-bold text-xl mb-2 text-main">{step.title}</h3>
+                        <p className="text-muted text-sm leading-relaxed max-w-[200px]">{step.desc}</p>
+                      </div>
+                    ))}
+                  </div>
                 </motion.div>
               </motion.div>
             )}

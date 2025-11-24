@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Heart, ArrowLeft, Mail, Lock, User, Calendar, Loader2 } from "lucide-react";
+import { Heart, Mail, Lock, User, Calendar, Loader2 } from "lucide-react";
+import { GobackButton, ModeToggle } from "@/components/ui"; 
 
-export default function Signup() {
+export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignup = (e: React.FormEvent) => {
@@ -13,23 +14,19 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen w-full flex bg-background text-main font-sans">
+    <div className="min-h-screen w-full flex bg-background text-main font-sans relative overflow-hidden">
       
-      {/* --- Right Side (Form) - Swapped Order for mobile natural flow --- */}
+       {/* --- Floating Navigation Controls --- */}
+      <div className="absolute top-6 left-6 z-50">
+        <GobackButton />
+      </div>
+      <div className="absolute top-6 right-6 z-50">
+        <ModeToggle />
+      </div>
+
+      {/* --- Right Side (Form) --- */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 lg:p-12 relative overflow-y-auto">
-        
-        {/* Mobile Header only */}
-        <div className="lg:hidden w-full flex justify-between items-center mb-8">
-            <a href="/" className="flex items-center gap-2 text-sm font-bold text-primary"><ArrowLeft size={18}/> Home</a>
-            <Heart size={24} className="text-primary" fill="currentColor"/>
-        </div>
-
-        {/* Desktop Back Button */}
-        <a href="/" className="hidden lg:flex absolute top-8 left-8 items-center gap-2 text-sm font-medium text-muted hover:text-primary transition-colors">
-            <ArrowLeft size={16} /> Back to Home
-        </a>
-
-        <div className="w-full max-w-md space-y-6">
+        <div className="w-full max-w-md space-y-6 mt-16 lg:mt-0">
             <div className="space-y-2">
                 <h1 className="text-3xl font-bold">Create your account</h1>
                 <p className="text-muted">Join 2M+ people finding love today.</p>
@@ -45,7 +42,7 @@ export default function Signup() {
                         <input 
                             type="text" 
                             placeholder="John Doe"
-                            className="w-full h-12 pl-12 pr-4 bg-secondary/30 border border-line rounded-xl focus:border-primary focus:bg-background transition-all"
+                            className="w-full h-12 pl-12 pr-4 bg-secondary/30 border border-line rounded-xl focus:border-primary focus:bg-background transition-all outline-none"
                             required
                         />
                     </div>
@@ -59,7 +56,7 @@ export default function Signup() {
                         <input 
                             type="email" 
                             placeholder="john@example.com"
-                            className="w-full h-12 pl-12 pr-4 bg-secondary/30 border border-line rounded-xl focus:border-primary focus:bg-background transition-all"
+                            className="w-full h-12 pl-12 pr-4 bg-secondary/30 border border-line rounded-xl focus:border-primary focus:bg-background transition-all outline-none"
                             required
                         />
                     </div>
@@ -73,7 +70,7 @@ export default function Signup() {
                         <input 
                             type="password" 
                             placeholder="Create a strong password"
-                            className="w-full h-12 pl-12 pr-4 bg-secondary/30 border border-line rounded-xl focus:border-primary focus:bg-background transition-all"
+                            className="w-full h-12 pl-12 pr-4 bg-secondary/30 border border-line rounded-xl focus:border-primary focus:bg-background transition-all outline-none"
                             required
                         />
                     </div>
@@ -87,7 +84,7 @@ export default function Signup() {
                         <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-muted group-focus-within:text-primary transition-colors" size={18} />
                         <input 
                             type="date" 
-                            className="w-full h-12 pl-12 pr-4 bg-secondary/30 border border-line rounded-xl focus:border-primary focus:bg-background transition-all text-muted"
+                            className="w-full h-12 pl-12 pr-4 bg-secondary/30 border border-line rounded-xl focus:border-primary focus:bg-background transition-all outline-none text-muted"
                             required
                         />
                     </div>

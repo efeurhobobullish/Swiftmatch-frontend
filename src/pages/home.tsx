@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Loader } from "lucide-react";
+import { Loader, Users, Swords, Trophy, MessageCircle, Gamepad2, Crown } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import api from "@/api/axios";
 import { Pattern, ButtonWithLoader, ModeToggle } from "@/components/ui";
 import { popularGames } from "@/constants/data";
-import {
-  Users,
-  Swords,
-  Trophy,
-  MessageCircle,
-  Gamepad2,
-  Crown
-} from "lucide-react";
 import { useThemeStore } from "@/store";
 
 export default function Home() {
   const { theme } = useThemeStore();
   const [isLoading, setIsLoading] = useState(true);
 
+  // Dynamic logo based on theme state
   const logoPath = theme === "dark" ? "/logo-white.svg" : "/logo-colour.svg";
 
   useEffect(() => {
@@ -72,7 +65,7 @@ export default function Home() {
 
   return (
     <Pattern>
-      <div className="relative z-10 min-h-[100dvh] flex flex-col overflow-x-hidden">
+      <div className="relative z-10 min-h-[100dvh] flex flex-col overflow-x-hidden font-sans text-main">
         {/* Header */}
         <header className="w-full p-6 md:p-8 flex justify-between items-center max-w-7xl mx-auto z-20">
           <div className="flex items-center gap-3">
@@ -161,7 +154,7 @@ export default function Home() {
                   className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto"
                 >
                   {stats.map((stat, idx) => (
-                    <div key={idx} className="text-center p-4 rounded-2xl bg-secondary/50 border border-line">
+                    <div key={idx} className="text-center p-4 rounded-2xl bg-secondary/50 border border-line backdrop-blur-sm">
                       <div className="text-2xl md:text-3xl font-bold text-orange-500 mb-1">{stat.value}</div>
                       <div className="text-xs text-muted uppercase tracking-wider">{stat.label}</div>
                     </div>
@@ -180,7 +173,7 @@ export default function Home() {
                     initialText="Find Your Squad"
                     loadingText=""
                     onClick={handleGetStarted}
-                    className="h-12 md:h-14 px-8 md:px-10 rounded-full text-base md:text-lg min-w-[200px] shadow-xl bg-gradient-to-r from-orange-500 to-red-500 text-background hover:from-orange-600 hover:to-red-600 transition-all hover:shadow-2xl hover:scale-105"
+                    className="h-12 md:h-14 px-8 md:px-10 rounded-full text-base md:text-lg min-w-[200px] shadow-xl bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600 transition-all hover:shadow-2xl hover:scale-105 border-0"
                   />
                   <button
                     onClick={() => window.location.href = "/games"}
@@ -209,7 +202,7 @@ export default function Home() {
                       <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/10 to-red-500/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                         <feature.icon size={24} className="text-orange-500" />
                       </div>
-                      <h3 className="font-bold text-lg mb-3 text-orange-500">{feature.title}</h3>
+                      <h3 className="font-bold text-lg mb-3 text-main">{feature.title}</h3>
                       <p className="text-sm text-muted leading-relaxed">{feature.desc}</p>
                     </motion.div>
                   ))}
@@ -244,3 +237,4 @@ export default function Home() {
     </Pattern>
   );
 }
+

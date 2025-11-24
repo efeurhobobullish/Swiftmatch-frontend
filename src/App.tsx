@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 import { ScrollToTop } from "@/components/ui";
 import { Home, NotFound } from "@/pages";
-import { Signup, Login } from "@/pages/auth";
+import { Signup, Login, Verify } from "@/pages/auth";
 
 export default function App() {
   return (
@@ -13,6 +13,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/verify" element={<Verify />} />
 
       
        

@@ -1,27 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #fef7ff;
-  --secondary: #faf0ff;
-  --foreground: #f5e8ff;
-  --main: #5a189a;
-  --muted: #c77dff;
-  --primary: #7b2cbf;
-  --line: #e9c8ff;
+  /* Light Mode: Soft Pink & Crisp White */
+  --background: #fff1f2;  /* Very pale rose */
+  --secondary: #ffe4e6;   /* Soft blush for sidebars/accents */
+  --foreground: #ffffff;  /* Pure white for cards/inputs */
+  --main: #881337;        /* Deep rose/burgundy for text */
+  --muted: #be123c;       /* Softer red for icons/secondary text */
+  --primary: #e11d48;     /* Vibrant Rose Red for buttons */
+  --line: #fecdd3;        /* Light pink borders */
 }
 
 .dark {
-  --background: #10002b;
-  --foreground: #240046;
-  --main: #e0aaff;
-  --secondary: #1a0033;
-  --muted: #9d4edd;
-  --line: #3c096c;
-  --primary: #c77dff;
+  /* Dark Mode: Deep Charcoal & Neon Rose */
+  --background: #0f0507;  /* Almost black with red tint */
+  --foreground: #1f0810;  /* Dark card surface */
+  --main: #fff1f2;        /* White-ish text */
+  --secondary: #2e0f18;   /* Alternate dark surface */
+  --muted: #fb7185;       /* Muted rose */
+  --line: #4c0519;        /* Dark borders */
+  --primary: #f43f5e;     /* Bright Rose pop */
 }
 
 @theme inline {
@@ -61,7 +62,7 @@ button,
 }
 
 .btn-primary {
-  @apply text-white dark:text-[#171717] bg-primary font-semibold;
+  @apply text-white dark:text-[#fff] bg-primary font-semibold transition-opacity hover:opacity-90;
 }
 
 .hide-scrollbar::-webkit-scrollbar {

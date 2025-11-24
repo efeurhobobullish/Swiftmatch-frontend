@@ -9,7 +9,11 @@ import {
   Users,
   Swords,
   Trophy,
-  MessageCircle
+  MessageCircle,
+  Gamepad2,
+  Sparkles,
+  Crown,
+  Mic
 } from "lucide-react";
 import { useThemeStore } from "@/store";
 
@@ -25,6 +29,7 @@ export default function Home() {
       try {
         await api.get("/");
       } catch (error) {
+        console.error(error);
         toast.error("Services are not available");
       } finally {
         setIsLoading(false);
@@ -41,202 +46,201 @@ export default function Home() {
     {
       icon: Users,
       title: "Find Teammates",
-      desc: "Connect with players at your skill level for any game."
+      desc: "Connect with players at your skill level for COD, PUBG, Free Fire and more.",
     },
     {
       icon: Swords,
       title: "Competitive Play",
-      desc: "Join ranked matches and climb the leaderboards."
+      desc: "Join ranked matches and climb the leaderboards with your squad.",
     },
     {
       icon: MessageCircle,
-      title: "Voice Chat",
-      desc: "Integrated voice chat for seamless communication."
+      title: "Voice Chat Ready",
+      desc: "Integrated voice chat for seamless communication during gameplay.",
     },
     {
       icon: Trophy,
-      title: "Track Progress",
-      desc: "Monitor stats and earn achievements."
-    }
+      title: "Achievements & Stats",
+      desc: "Track your progress, earn badges, and showcase your gaming skills.",
+    },
   ];
 
   const stats = [
-    { value: "50K+", label: "Active Players" },
-    { value: "100+", label: "Games" },
+    { value: "50K+", label: "Active Gamers" },
+    { value: "100+", label: "Games Supported" },
     { value: "5K+", label: "Daily Matches" },
-    { value: "10K+", label: "Squads" }
+    { value: "10K+", label: "Squads Formed" },
   ];
 
   return (
     <Pattern>
-      <div className="min-h-screen flex flex-col">
+      <div className="relative z-10 min-h-[100dvh] flex flex-col overflow-x-hidden">
         {/* Header */}
-        <header className="w-full px-6 py-4 flex justify-between items-center max-w-7xl mx-auto">
+        <header className="w-full p-6 md:p-8 flex justify-between items-center max-w-7xl mx-auto z-20">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10">
-              <img src={logoPath} alt="GameSquad" className="w-full h-full" />
+            <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center">
+              <img src={logoPath} alt="GameSquad Logo" className="w-full h-full object-contain" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
               GameSquad
             </span>
           </div>
-          <ModeToggle />
+          <div className="flex items-center gap-4">
+            <ModeToggle />
+          </div>
         </header>
 
-        {/* Main Content */}
-        <main className="flex-1 flex items-center justify-center px-4 py-8">
-          <div className="w-full max-w-6xl mx-auto">
-            <AnimatePresence>
-              {isLoading ? (
-                <div className="flex flex-col items-center justify-center gap-3">
-                  <Loader size={32} className="animate-spin text-orange-500" />
-                  <p className="text-orange-500/80 text-sm font-medium">
-                    Loading Game Services...
-                  </p>
+        <main className="flex-1 flex flex-col items-center justify-center px-4 pb-12 md:pb-20 w-full max-w-7xl mx-auto relative">
+          <AnimatePresence>
+            {isLoading ? (
+              <div className="center gap-3 text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="relative">
+                  <Loader size={28} className="animate-spin text-orange-500" />
+                  <Gamepad2 className="absolute -top-1 -right-1 w-4 h-4 text-orange-500 animate-pulse" />
                 </div>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="space-y-16 text-center"
-                >
-                  {/* Hero Section */}
-                  <section className="space-y-8">
-                    <div className="space-y-6">
-                      <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="flex justify-center"
-                      >
-                        <div className="w-20 h-20 relative">
-                          <img src={logoPath} alt="GameSquad" className="w-full h-full" />
-                          <div className="absolute inset-0 bg-orange-500/10 rounded-full blur-lg -z-10" />
-                        </div>
-                      </motion.div>
-
-                      <div className="space-y-4">
-                        <motion.h1
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.4 }}
-                          className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent"
-                        >
-                          GameSquad
-                        </motion.h1>
-                        
-                        <motion.p
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.6 }}
-                          className="text-lg text-muted-foreground max-w-2xl mx-auto"
-                        >
-                          Team up with players worldwide. Find your perfect squad and dominate together.
-                        </motion.p>
+                <p className="text-orange-500/80 text-sm font-medium animate-pulse">
+                  Loading Game Services...
+                </p>
+              </div>
+            ) : (
+              <motion.div
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 40, opacity: 0 }}
+                transition={{ delay: 0.5 }}
+                className="space-y-12 text-center w-full"
+              >
+                {/* Hero Section */}
+                <div className="space-y-6 max-w-4xl mx-auto">
+                  <motion.div
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.7, type: "spring" }}
+                    className="flex justify-center mb-8"
+                  >
+                    <div className="relative">
+                      <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center">
+                        <img src={logoPath} alt="GameSquad Logo" className="w-full h-full object-contain" />
                       </div>
+                      <div className="absolute -inset-4 bg-gradient-to-r from-orange-500/20 to-red-500/5 rounded-full blur-xl -z-10" />
                     </div>
+                  </motion.div>
 
-                    {/* Stats */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8 }}
-                      className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-md mx-auto"
-                    >
-                      {stats.map((stat, index) => (
-                        <div key={index} className="text-center p-4 rounded-lg bg-card border">
-                          <div className="text-xl font-bold text-orange-500">{stat.value}</div>
-                          <div className="text-xs text-muted-foreground uppercase tracking-wide">
-                            {stat.label}
-                          </div>
-                        </div>
-                      ))}
-                    </motion.div>
+                  <motion.h1
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.9 }}
+                    className="text-5xl md:text-7xl lg:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-orange-400 tracking-tight"
+                  >
+                    GameSquad
+                  </motion.h1>
 
-                    {/* CTA Buttons */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 1 }}
-                      className="flex flex-col sm:flex-row gap-3 justify-center"
-                    >
-                      <ButtonWithLoader
-                        loading={false}
-                        initialText="Find Your Squad"
-                        loadingText=""
-                        onClick={handleGetStarted}
-                        className="px-8 py-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-lg"
-                      />
-                      <button
-                        onClick={() => window.location.href = "/games"}
-                        className="px-8 py-3 border border-border hover:border-orange-500/50 text-muted-foreground hover:text-orange-500 rounded-lg transition-colors"
-                      >
-                        Browse Games
-                      </button>
-                    </motion.div>
-                  </section>
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 1.1 }}
+                    className="space-y-4"
+                  >
+                    <p className="text-muted text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-2">
+                      <Crown className="w-4 h-4" />
+                      Where Gamers Connect
+                      <Crown className="w-4 h-4" />
+                    </p>
+                    <p className="text-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                      Team up with players worldwide for COD, PUBG, Free Fire and more.
+                      <span className="block text-orange-500 font-medium mt-2">
+                        Find Your Squad. Dominate Together.
+                      </span>
+                    </p>
+                  </motion.div>
+                </div>
 
-                  {/* Features */}
-                  <section className="space-y-8">
-                    <motion.h2
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 1.2 }}
-                      className="text-2xl font-semibold"
-                    >
-                      Why Choose GameSquad?
-                    </motion.h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                      {features.map((feature, index) => (
-                        <motion.div
-                          key={index}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 1.4 + index * 0.1 }}
-                          className="p-6 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
-                        >
-                          <div className="w-12 h-12 rounded-lg bg-orange-500/10 flex items-center justify-center mb-4">
-                            <feature.icon className="w-6 h-6 text-orange-500" />
-                          </div>
-                          <h3 className="font-semibold mb-2">{feature.title}</h3>
-                          <p className="text-sm text-muted-foreground">{feature.desc}</p>
-                        </motion.div>
-                      ))}
+                {/* Stats */}
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1.3 }}
+                  className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto"
+                >
+                  {stats.map((stat, idx) => (
+                    <div key={idx} className="text-center p-4 rounded-2xl bg-secondary/50 border border-line">
+                      <div className="text-2xl md:text-3xl font-bold text-orange-500 mb-1">{stat.value}</div>
+                      <div className="text-xs text-muted uppercase tracking-wider">{stat.label}</div>
                     </div>
-                  </section>
-
-                  {/* Popular Games */}
-                  <section className="space-y-6">
-                    <motion.h2
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 1.6 }}
-                      className="text-2xl font-semibold"
-                    >
-                      Popular Games
-                    </motion.h2>
-
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 1.8 }}
-                      className="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto"
-                    >
-                      {popularGames.map((game, index) => (
-                        <span
-                          key={index}
-                          className="px-4 py-2 text-sm border rounded-full bg-background hover:border-orange-500/50 hover:text-orange-500 transition-colors cursor-default"
-                        >
-                          {game}
-                        </span>
-                      ))}
-                    </motion.div>
-                  </section>
+                  ))}
                 </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+
+                {/* CTA Buttons */}
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1.5 }}
+                  className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6 w-full sm:w-auto"
+                >
+                  <ButtonWithLoader
+                    loading={false}
+                    initialText="Find Your Squad"
+                    loadingText=""
+                    onClick={handleGetStarted}
+                    className="h-12 md:h-14 px-8 md:px-10 rounded-full text-base md:text-lg min-w-[200px] shadow-xl bg-gradient-to-r from-orange-500 to-red-500 text-background hover:from-orange-600 hover:to-red-600 transition-all hover:shadow-2xl hover:scale-105"
+                  />
+                  <button
+                    onClick={() => window.location.href = "/games"}
+                    className="flex items-center justify-center gap-2 h-12 md:h-14 px-8 rounded-full text-sm md:text-base font-medium text-muted hover:text-orange-500 transition-all border border-line hover:border-orange-500/50 bg-transparent w-full sm:w-auto hover:scale-105"
+                  >
+                    <Gamepad2 size={20} /> Browse Games
+                  </button>
+                </motion.div>
+
+                {/* Features Grid */}
+                <motion.div
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1.7 }}
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16 md:mt-20 w-full"
+                >
+                  {features.map((feature, idx) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 1.9 + idx * 0.1 }}
+                      className="p-6 rounded-2xl border border-line bg-background hover:bg-secondary/40 transition-all group cursor-default hover:-translate-y-2 duration-300 relative overflow-hidden"
+                    >
+                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-red-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/10 to-red-500/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <feature.icon size={24} className="text-orange-500" />
+                      </div>
+                      <h3 className="font-bold text-lg mb-3 text-orange-500">{feature.title}</h3>
+                      <p className="text-sm text-muted leading-relaxed">{feature.desc}</p>
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                {/* Popular Games */}
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 2.1 }}
+                  className="mt-16 md:mt-24 text-center space-y-6 w-full"
+                >
+                  <p className="text-muted text-sm uppercase tracking-widest mb-6">
+                    Popular Games
+                  </p>
+                  <ul className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-4xl mx-auto">
+                    {popularGames.map((game) => (
+                      <li
+                        key={game}
+                        className="text-xs font-medium text-muted bg-secondary border border-line rounded-full px-4 py-2 hover:border-orange-500/50 hover:text-orange-500 transition-all cursor-default hover:scale-105"
+                      >
+                        {game}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </main>
       </div>
     </Pattern>

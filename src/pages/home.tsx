@@ -4,7 +4,7 @@ import { useState } from "react";
 import ModeToggle from "@/components/ui/mode-toggle";
 import { 
   Heart, ArrowRight, Users, Sparkles, ShieldCheck, 
-  MessageCircle, Zap, Star, Smartphone, Menu, X, CheckCircle, Apple
+  MessageCircle, Zap, Star, Menu, X, CheckCircle, Apple
 } from "lucide-react";
 
 export default function Home() {

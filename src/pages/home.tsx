@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Loader, Users, Swords, Trophy, MessageCircle, Gamepad2, Crown } from "lucide-react";
+import { 
+  Loader, 
+  Ghost, 
+  ShieldCheck, 
+  Globe, 
+  Zap, 
+  Lock,
+  Fingerprint
+} from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import api from "@/api/axios";
 import { Pattern, ButtonWithLoader, ModeToggle } from "@/components/ui";
-import { popularGames } from "@/constants/data";
 import { useThemeStore } from "@/store";
 
 export default function Home() {
@@ -12,7 +19,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   // Dynamic logo based on theme state
-  const logoPath = theme === "dark" ? "/logo-white.svg" : "/logo-colour.svg";
+  const logoPath = theme === "dark" ? "/logo-white.svg" : "/logo-black.svg";
 
   useEffect(() => {
     const checkServices = async () => {
@@ -21,7 +28,7 @@ export default function Home() {
         await api.get("/");
       } catch (error) {
         console.error(error);
-        toast.error("Services are not available");
+        toast.error("Network services are unreachable");
       } finally {
         setIsLoading(false);
       }
@@ -35,32 +42,32 @@ export default function Home() {
 
   const features = [
     {
-      icon: Users,
-      title: "Find Teammates",
-      desc: "Connect with players at your skill level for COD, PUBG, Free Fire and more.",
+      icon: Ghost,
+      title: "Total Anonymity",
+      desc: "Connect without revealing your identity. Your data remains yours alone.",
     },
     {
-      icon: Swords,
-      title: "Competitive Play",
-      desc: "Join ranked matches and climb the leaderboards with your squad.",
+      icon: ShieldCheck,
+      title: "End-to-End Encrypted",
+      desc: "Every message is encrypted. We can't read your chats, and neither can anyone else.",
     },
     {
-      icon: MessageCircle,
-      title: "Voice Chat Ready",
-      desc: "Integrated voice chat for seamless communication during gameplay.",
+      icon: Globe,
+      title: "Global Network",
+      desc: "Join decentralized communities across the world without borders.",
     },
     {
-      icon: Trophy,
-      title: "Achievements & Stats",
-      desc: "Track your progress, earn badges, and showcase your gaming skills.",
+      icon: Zap,
+      title: "Lightning Fast",
+      desc: "Real-time communication with zero latency, optimized for any device.",
     },
   ];
 
   const stats = [
-    { value: "50K+", label: "Active Gamers" },
-    { value: "100+", label: "Games Supported" },
-    { value: "5K+", label: "Daily Matches" },
-    { value: "10K+", label: "Squads Formed" },
+    { value: "2M+", label: "Hidden Identities" },
+    { value: "150+", label: "Countries" },
+    { value: "100%", label: "Encrypted" },
+    { value: "0", label: "Logs Kept" },
   ];
 
   return (
@@ -69,11 +76,11 @@ export default function Home() {
         {/* Header */}
         <header className="w-full p-6 md:p-8 flex justify-between items-center max-w-7xl mx-auto z-20">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center">
-              <img src={logoPath} alt="GameSquad Logo" className="w-full h-full object-contain" />
+            <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+              <img src={logoPath} alt="Anonymous Logo" className="w-full h-full object-contain" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-              GameSquad
+            <span className="text-xl font-bold tracking-tight text-main">
+              Anonymous
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -86,11 +93,11 @@ export default function Home() {
             {isLoading ? (
               <div className="center gap-3 text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <div className="relative">
-                  <Loader size={28} className="animate-spin text-orange-500" />
-                  <Gamepad2 className="absolute -top-1 -right-1 w-4 h-4 text-orange-500 animate-pulse" />
+                  <Loader size={28} className="animate-spin text-main" />
+                  <Ghost className="absolute -top-1 -right-1 w-4 h-4 text-muted animate-pulse" />
                 </div>
-                <p className="text-orange-500/80 text-sm font-medium animate-pulse">
-                  Loading Game Services...
+                <p className="text-muted text-sm font-medium animate-pulse">
+                  Establishing Secure Connection...
                 </p>
               </div>
             ) : (
@@ -110,10 +117,10 @@ export default function Home() {
                     className="flex justify-center mb-8"
                   >
                     <div className="relative">
-                      <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center">
-                        <img src={logoPath} alt="GameSquad Logo" className="w-full h-full object-contain" />
+                      <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center bg-secondary/30 rounded-full border border-line p-6 backdrop-blur-sm">
+                        <img src={logoPath} alt="Anonymous Logo" className="w-full h-full object-contain" />
                       </div>
-                      <div className="absolute -inset-4 bg-gradient-to-r from-orange-500/20 to-red-500/5 rounded-full blur-xl -z-10" />
+                      <div className="absolute -inset-4 bg-gradient-to-tr from-main/10 to-transparent rounded-full blur-xl -z-10" />
                     </div>
                   </motion.div>
 
@@ -121,9 +128,9 @@ export default function Home() {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.9 }}
-                    className="text-5xl md:text-7xl lg:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-orange-400 tracking-tight"
+                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-main"
                   >
-                    GameSquad
+                    Unseen. <span className="text-muted">Untraced.</span>
                   </motion.h1>
 
                   <motion.div
@@ -133,14 +140,15 @@ export default function Home() {
                     className="space-y-4"
                   >
                     <p className="text-muted text-xs md:text-sm uppercase tracking-widest flex items-center justify-center gap-2">
-                      <Crown className="w-4 h-4" />
-                      Where Gamers Connect
-                      <Crown className="w-4 h-4" />
+                      <Fingerprint className="w-4 h-4" />
+                      Secure Identity Protocol
+                      <Fingerprint className="w-4 h-4" />
                     </p>
                     <p className="text-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-                      Team up with players worldwide for COD, PUBG, Free Fire and more.
-                      <span className="block text-orange-500 font-medium mt-2">
-                        Find Your Squad. Dominate Together.
+                      Experience the freedom of true privacy. 
+                      Connect with the world without leaving a digital footprint.
+                      <span className="block text-main font-medium mt-2">
+                        Your identity is your secret to keep.
                       </span>
                     </p>
                   </motion.div>
@@ -154,8 +162,8 @@ export default function Home() {
                   className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto"
                 >
                   {stats.map((stat, idx) => (
-                    <div key={idx} className="text-center p-4 rounded-2xl bg-secondary/50 border border-line backdrop-blur-sm">
-                      <div className="text-2xl md:text-3xl font-bold text-orange-500 mb-1">{stat.value}</div>
+                    <div key={idx} className="text-center p-4 rounded-2xl bg-secondary/30 border border-line backdrop-blur-sm">
+                      <div className="text-2xl md:text-3xl font-bold text-main mb-1">{stat.value}</div>
                       <div className="text-xs text-muted uppercase tracking-wider">{stat.label}</div>
                     </div>
                   ))}
@@ -170,16 +178,16 @@ export default function Home() {
                 >
                   <ButtonWithLoader
                     loading={false}
-                    initialText="Find Your Squad"
+                    initialText="Go Incognito"
                     loadingText=""
                     onClick={handleGetStarted}
-                    className="h-12 md:h-14 px-8 md:px-10 rounded-full text-base md:text-lg min-w-[200px] shadow-xl bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600 transition-all hover:shadow-2xl hover:scale-105 border-0"
+                    className="h-12 md:h-14 px-8 md:px-10 rounded-full text-base md:text-lg min-w-[200px] shadow-lg bg-main text-background hover:bg-main/90 transition-all hover:shadow-xl hover:scale-105 border-0"
                   />
                   <button
-                    onClick={() => window.location.href = "/games"}
-                    className="flex items-center justify-center gap-2 h-12 md:h-14 px-8 rounded-full text-sm md:text-base font-medium text-muted hover:text-orange-500 transition-all border border-line hover:border-orange-500/50 bg-transparent w-full sm:w-auto hover:scale-105"
+                    onClick={() => window.location.href = "/about"}
+                    className="flex items-center justify-center gap-2 h-12 md:h-14 px-8 rounded-full text-sm md:text-base font-medium text-muted hover:text-main transition-all border border-line hover:border-main bg-transparent w-full sm:w-auto hover:scale-105"
                   >
-                    <Gamepad2 size={20} /> Browse Games
+                    <Lock size={18} /> How it Works
                   </button>
                 </motion.div>
 
@@ -198,36 +206,14 @@ export default function Home() {
                       transition={{ delay: 1.9 + idx * 0.1 }}
                       className="p-6 rounded-2xl border border-line bg-background hover:bg-secondary/40 transition-all group cursor-default hover:-translate-y-2 duration-300 relative overflow-hidden"
                     >
-                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-red-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/10 to-red-500/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <feature.icon size={24} className="text-orange-500" />
+                      <div className="absolute top-0 left-0 w-full h-1 bg-main transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                      <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <feature.icon size={24} className="text-main" />
                       </div>
                       <h3 className="font-bold text-lg mb-3 text-main">{feature.title}</h3>
                       <p className="text-sm text-muted leading-relaxed">{feature.desc}</p>
                     </motion.div>
                   ))}
-                </motion.div>
-
-                {/* Popular Games */}
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 2.1 }}
-                  className="mt-16 md:mt-24 text-center space-y-6 w-full"
-                >
-                  <p className="text-muted text-sm uppercase tracking-widest mb-6">
-                    Popular Games
-                  </p>
-                  <ul className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-4xl mx-auto">
-                    {popularGames.map((game) => (
-                      <li
-                        key={game}
-                        className="text-xs font-medium text-muted bg-secondary border border-line rounded-full px-4 py-2 hover:border-orange-500/50 hover:text-orange-500 transition-all cursor-default hover:scale-105"
-                      >
-                        {game}
-                      </li>
-                    ))}
-                  </ul>
                 </motion.div>
               </motion.div>
             )}
@@ -237,4 +223,5 @@ export default function Home() {
     </Pattern>
   );
 }
+
 

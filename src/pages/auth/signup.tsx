@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock, User, ArrowRight, Github, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import { Eye, EyeOff, Mail, Lock, User, Github, Sparkles } from "lucide-react";
 import { Pattern, ButtonWithLoader, ModeToggle } from "@/components/ui";
 import { useThemeStore } from "@/store";
 import { toast } from "sonner";

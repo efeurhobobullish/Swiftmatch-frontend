@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Loader, Gamepad2, Users, Swords, Trophy, MessageCircle, Crown, Zap, Globe, Sparkles } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import api from "@/api/axios";
 import { Pattern, ButtonWithLoader, ModeToggle } from "@/components/ui";
 import { popularGames } from "@/constants/data";
 import { useThemeStore } from "@/store";
 
-// --- Animation Variants ---
-const containerVariants = {
+// --- Animation Variants (Typed for TypeScript) ---
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -16,7 +16,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
@@ -27,8 +27,8 @@ const itemVariants = {
 
 // --- Sub-Components ---
 
-// 1. Infinite Scrolling Marquee
-const GameMarquee = ({ games }) => (
+// 1. Infinite Scrolling Marquee (Added Prop Types)
+const GameMarquee = ({ games }: { games: string[] }) => (
   <div className="relative flex overflow-hidden w-full mask-linear-fade">
     <motion.div
       className="flex gap-4 py-4 whitespace-nowrap"
@@ -91,7 +91,6 @@ export default function Home() {
     const checkServices = async () => {
       setIsLoading(true);
       try {
-        // Simulated delay for effect if API is too fast
         await Promise.all([api.get("/"), new Promise(r => setTimeout(r, 800))]); 
       } catch (error) {
         console.error(error);
@@ -107,7 +106,6 @@ export default function Home() {
     window.location.href = "/signup";
   };
 
-  // Bento Grid Data
   const features = [
     {
       id: 1,

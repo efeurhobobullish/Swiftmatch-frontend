@@ -1,3 +1,4 @@
+
 export const libraries = [
     "React Router",
     "Tailwind CSS",
@@ -9,4 +10,14 @@ export const libraries = [
     "Zod",
     "Sonner",
     "Framer Motion",
+];
+
+// In your constants/data.ts
+export const features = [
+  "AI-Powered Matching",
+  "Instant Connections",
+  "Video Profiles",
+  "Secure Chat",
+  "Location-Based",
+  "Verified Profiles"
 ]

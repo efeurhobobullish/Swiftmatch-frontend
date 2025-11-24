@@ -1,47 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
-  /* Light Mode: Soft Pink & Crisp White */
-  --background: #fff1f2;  /* Very pale rose */
-  --secondary: #ffe4e6;   /* Soft blush for sidebars/accents */
-  --foreground: #ffffff;  /* Pure white for cards/inputs */
-  --main: #881337;        /* Deep rose/burgundy for text */
-  --muted: #be123c;       /* Softer red for icons/secondary text */
-  --primary: #e11d48;     /* Vibrant Rose Red for buttons */
-  --line: #fecdd3;        /* Light pink borders */
+  /* Light Mode */
+  --color-bg: #ffffff;
+  --color-card: #f7f7f8;
+  --color-text: #111827;      /* Dark gray text */
+  --color-muted: #6b7280;     /* Secondary text */
+  --color-primary: #10a37f;   /* ChatGPT green button */
+  --color-border: #e5e7eb;    /* Light gray borders */
 }
 
 .dark {
-  /* Dark Mode: Deep Charcoal & Neon Rose */
-  --background: #0f0507;  /* Almost black with red tint */
-  --foreground: #1f0810;  /* Dark card surface */
-  --main: #fff1f2;        /* White-ish text */
-  --secondary: #2e0f18;   /* Alternate dark surface */
-  --muted: #fb7185;       /* Muted rose */
-  --line: #4c0519;        /* Dark borders */
-  --primary: #f43f5e;     /* Bright Rose pop */
-}
-
-@theme inline {
-  --font-sans: "Plus Jakarta Sans", sans-serif;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-secondary: var(--secondary);
-  --color-main: var(--main);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
-  --color-primary: var(--primary);
-}
-
-*{
-  @apply outline-none
+  /* Dark Mode */
+  --color-bg: #202123;
+  --color-card: #343541;
+  --color-text: #d1d5db;      /* Light gray text */
+  --color-muted: #9ca3af;     /* Secondary muted text */
+  --color-primary: #10a37f;   /* Bright green accent */
+  --color-border: #4b5563;    /* Darker border */
 }
 
 body {
- @apply bg-background text-main font-sans;
+  @apply bg-[var(--color-bg)] text-[var(--color-text)] font-sans;
 }
 
 .main {
@@ -58,21 +38,39 @@ body {
 
 button,
 .btn {
-  @apply cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50;
+  @apply cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 rounded-md px-4 py-2 transition hover:opacity-90;
 }
 
 .btn-primary {
-  @apply text-white dark:text-[#fff] bg-primary font-semibold transition-opacity hover:opacity-90;
+  @apply bg-[var(--color-primary)] text-white font-semibold;
+}
+
+.card {
+  @apply bg-[var(--color-card)] rounded-xl shadow-md p-6 border border-[var(--color-border)];
+}
+
+.text-muted {
+  @apply text-[var(--color-muted)];
+}
+
+textarea, input {
+  @apply bg-[var(--color-card)] text-[var(--color-text)] rounded-md border border-[var(--color-border)] p-3 w-full focus:ring-2 focus:ring-[var(--color-primary)] focus:outline-none;
+}
+
+.scrollable {
+  @apply overflow-y-auto max-h-[500px];
 }
 
 .hide-scrollbar::-webkit-scrollbar {
   @apply hidden;
 }
 
-.hide-scrollbar::-webkit-scrollbar-thumb {
-  @apply hidden;
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
+/* Optional: subtle animated gradient for AI typing or highlights */
 @keyframes gradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -82,4 +80,3 @@ button,
   background-size: 200% auto;
   animation: gradient 4s linear infinite;
 }
-

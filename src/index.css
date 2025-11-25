@@ -1,57 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Jaro:opsz@6..72&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Light Mode: Clean White & Vibrant Orange */
-  --background: #ffffff;
-  --secondary: #fff7ed;  /* Orange-50 (Warm tint) */
-  --foreground: #ffffff; 
-  --main: #1c1917;       /* Stone-900 (Warm Black) - softer than pure black */
-  --muted: #78716c;      /* Stone-500 (Warm Grey) */
-  --primary: #ea580c;    /* Orange-600 (Vibrant Orange) */
-  --line: #ffedd5;       /* Orange-100 (Light Orange border) */
-  --card: #ffffff;
-  --card-foreground: #1c1917;
+  --secondary: #f9f9f9;
+  --foreground: #f5f5f5;
+  --background: #fefefe;
+  --main: #444;
+  --muted: #777;
+  --line: #eee;
+  --pulse: #f2f2f2;
 }
 
 .dark {
-  /* Dark Mode: Deep Stone/Black */
-  --background: #0c0a09; /* Stone-950 (Deepest Warm Black) */
-  --foreground: #1c1917; 
-  --main: #fafaf9;       /* Stone-50 (Warm White) */
-  --secondary: #1c1917;  /* Stone-900 (Dark Warm Grey) */
-  --muted: #a8a29e;      /* Stone-400 (Light Warm Grey) */
-  --line: #292524;       /* Stone-800 (Dark Border) */
-  --primary: #f97316;    /* Orange-500 (Bright Orange) for contrast */
-  --card: #0c0a09;
-  --card-foreground: #fafaf9;
+  --secondary: #20212d;
+  --foreground: #30313d;
+  --background: rgb(23, 24, 31);
+  /* --secondary: #1d1d21;
+  --foreground: #2d2d31;
+  --background: #131315; */
+  --main: #ededf0;
+  --muted: #938f8f;
+  /* --line: #2d2d31; */
+  --line: #30313d;
+  --pulse: #3d3d41;
 }
 
-@theme inline {
-  --font-sans: "Plus Jakarta Sans", sans-serif;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+@theme {
+  --font-sans: 'Poppins', sans-serif;
+  --font-serif: 'Instrument Sans', serif;
+  --font-mono: 'Outfit', monospace;
+  --font-jaro: 'Jaro', serif;
+
+  --color-primary: #6951f2;
   --color-secondary: var(--secondary);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
   --color-main: var(--main);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --color-primary: var(--primary);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
+  --color-pulse: var(--pulse);
 }
 
-*{
-  @apply outline-none;
+* {
+  outline: none;
+  box-sizing: border-box;
 }
 
+html,
 body {
- @apply bg-background text-main font-sans antialiased;
+  @apply bg-background text-main font-sans scroll-smooth;
 }
 
-/* Utilities */
 .main {
   @apply max-w-[90%] 2xl:max-w-[1280px] mx-auto;
 }
@@ -64,26 +66,70 @@ body {
   @apply flex items-center justify-center;
 }
 
-/* Custom scrollbar - Updated to match Orange theme */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
+button,
+.btn {
+  @apply cursor-pointer font-semibold flex items-center justify-center gap-2 disabled:opacity-50;
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: var(--secondary);
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: var(--line); 
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: var(--primary); /* Orange on hover */
-}
-
-/* button css */
 .btn-primary {
-  @apply bg-primary text-white font-medium hover:opacity-90 active:scale-95 transition-all shadow-md shadow-orange-500/20;
+  @apply bg-gradient-to-r from-violet-900 to-pink-400 text-white;
+}
+
+.btn-primary-2 {
+  @apply bg-primary text-white;
+}
+
+.input {
+  @apply bg-secondary text-sm border border-line rounded-lg px-4 h-10 focus:outline-none focus:border-primary invalid:border-red-500;
+}
+
+.message {
+  @apply bg-secondary text-sm border border-line rounded-lg px-4 py-2 focus:outline-none focus:border-primary invalid:border-red-500;
+}
+
+.p {
+  color: #596779;
+}
+
+.loader {
+  width: 32px;
+  height: 32px;
+  transform: translateY(100%);
+  border-radius: 50%;
+  background: #6951f2;
+  position: relative;
+}
+
+.loader:before,
+.loader:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #6951f2;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -200%;
+}
+
+.loader:after {
+  animation: moveX 0.5s infinite linear alternate;
+}
+
+@keyframes moveX {
+  0% {
+    top: 0%;
+    transform: translateX(-50%) scale(1.5);
+  }
+
+  50% {
+    top: -75%;
+    transform: translateX(-50%) scale(0.5);
+  }
+
+  100% {
+    top: -200%;
+    transform: translateX(-50%) scale(1.5);
+  }
 }

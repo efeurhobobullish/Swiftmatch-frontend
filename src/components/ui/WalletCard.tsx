@@ -1,18 +1,19 @@
 import { Link } from "react-router-dom";
 import { Gift, Wallet, Zap } from "lucide-react";
-import { useAuth } from "@/hooks";
 import CountUp from "react-countup";
+
+// UPDATED IMPORT: Pointing to your hooks folder
+import { useAuth } from "@/hooks/useAuth"; 
 
 const WalletCard = () => {
   const { user } = useAuth();
   
   return (
     <div className="bg-gradient-to-b from-violet-900 to-pink-400 rounded-3xl p-5 space-y-6 shadow-xl relative overflow-hidden">
-       {/* Decorative background elements to make it pop like the loader */}
+       {/* Decorative background elements */}
        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
 
       <div className="flex items-center justify-between relative z-10">
-        {/* Replaced img with Icon for demo stability, you can swap back to <img src="/logo-white.svg" ... /> */}
         <div className="flex items-center gap-2 text-white font-jaro text-xl tracking-wide">
            <Zap size={24} className="fill-white" /> SWIFT
         </div>

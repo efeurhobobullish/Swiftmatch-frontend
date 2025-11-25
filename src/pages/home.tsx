@@ -1,207 +1,256 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import CountUp from "react-countup";
 import { 
-  Zap, 
-  ShieldCheck, 
-  Globe, 
-  Menu, 
-  X, 
-  ArrowRight,
-  Check,
-  MessageSquare
-} from 'lucide-react';
-
-/* --- UI Components --- */
-
-const Button = ({ children, variant = 'primary', className = '', ...props }) => {
-  const base = "inline-flex items-center justify-center h-12 px-6 rounded-lg font-bold transition-all duration-200 active:scale-95";
-  const variants = {
-    primary: "bg-main text-background hover:opacity-90",
-    outline: "border border-line text-main hover:bg-secondary",
-    ghost: "text-muted hover:text-main"
-  };
-
-  return (
-    <button className={`${base} ${variants[variant]} ${className}`} {...props}>
-      {children}
-    </button>
-  );
-};
-
-const Card = ({ icon: Icon, title, desc }) => (
-  <div className="p-6 rounded-2xl border border-line bg-background hover:border-main/50 transition-colors">
-    <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center mb-4 text-main">
-      <Icon size={24} />
-    </div>
-    <h3 className="text-lg font-bold mb-2 text-main">{title}</h3>
-    <p className="text-muted text-sm leading-relaxed">{desc}</p>
-  </div>
-);
-
-const Badge = ({ children }) => (
-  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-secondary/50 text-xs font-medium text-main mb-6">
-    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-    {children}
-  </span>
-);
-
-/* --- Sections --- */
-
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-line">
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-2 font-bold text-xl text-main">
-          <div className="w-8 h-8 bg-main text-background rounded-lg flex items-center justify-center">
-            <Zap size={18} fill="currentColor" />
-          </div>
-          SwiftPlug
-        </div>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted">
-          <a href="#features" className="hover:text-main transition-colors">Features</a>
-          <a href="#pricing" className="hover:text-main transition-colors">Pricing</a>
-          <a href="#faq" className="hover:text-main transition-colors">Support</a>
-        </div>
-
-        <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" className="h-10 px-4">Log in</Button>
-          <Button className="h-10 px-4">Get Started</Button>
-        </div>
-
-        {/* Mobile Menu Toggle */}
-        <button className="md:hidden text-main" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X /> : <Menu />}
-        </button>
-      </div>
-
-      {/* Mobile Nav */}
-      {isOpen && (
-        <div className="md:hidden border-t border-line bg-background p-6 space-y-4">
-          <a href="#features" className="block text-lg font-medium text-main">Features</a>
-          <a href="#pricing" className="block text-lg font-medium text-main">Pricing</a>
-          <Button className="w-full">Get Started</Button>
-        </div>
-      )}
-    </nav>
-  );
-};
-
-const Hero = () => (
-  <section className="pt-32 pb-20 px-6">
-    <div className="max-w-4xl mx-auto text-center">
-      <Badge>v2.0 Now Live</Badge>
-      <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-main mb-6">
-        Virtual numbers for <br/>
-        <span className="text-muted">secure verification.</span>
-      </h1>
-      <p className="text-lg text-muted mb-10 max-w-2xl mx-auto leading-relaxed">
-        Receive SMS codes instantly from WhatsApp, Telegram, Google, and 50+ other services. No SIM card required.
-      </p>
-      
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <Button className="w-full sm:w-auto h-14 px-8 text-lg">
-          Start Verifying <ArrowRight className="ml-2 w-5 h-5" />
-        </Button>
-        <Button variant="outline" className="w-full sm:w-auto h-14 px-8 text-lg">
-          View Pricing
-        </Button>
-      </div>
-
-      {/* Simple Visual */}
-      <div className="mt-20 p-2 rounded-2xl bg-line/20 border border-line max-w-3xl mx-auto">
-        <div className="bg-background rounded-xl border border-line overflow-hidden shadow-sm">
-           <div className="flex items-center gap-2 px-4 py-3 border-b border-line bg-secondary/30">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-400/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-400/80" />
-                <div className="w-3 h-3 rounded-full bg-green-400/80" />
-              </div>
-              <div className="text-xs text-muted font-mono ml-4">swiftplug-dashboard.exe</div>
-           </div>
-           <div className="p-8 sm:p-12 flex flex-col items-center justify-center text-center space-y-6">
-              <div className="w-16 h-16 rounded-2xl bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center">
-                <MessageSquare size={32} />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-main">Verification Code Received</h3>
-                <p className="text-muted mt-1">Your WhatsApp code is <span className="text-main font-mono font-bold tracking-widest bg-secondary px-2 py-0.5 rounded">829-102</span></p>
-              </div>
-           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-const Features = () => (
-  <section id="features" className="py-24 px-6 border-t border-line bg-secondary/20">
-    <div className="max-w-6xl mx-auto">
-      <div className="grid md:grid-cols-3 gap-6">
-        <Card 
-          icon={Zap}
-          title="Instant Delivery"
-          desc="Our automated system delivers SMS codes to your dashboard in under 10 seconds."
-        />
-        <Card 
-          icon={Globe}
-          title="Global Coverage"
-          desc="Access real non-VoIP numbers from the US, UK, Netherlands, and 40+ other countries."
-        />
-        <Card 
-          icon={ShieldCheck}
-          title="Private & Secure"
-          desc="We never ask for your ID. Create an account anonymously and pay with Crypto."
-        />
-      </div>
-    </div>
-  </section>
-);
-
-const Stats = () => (
-  <section className="py-20 px-6 border-y border-line">
-    <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-      {[
-        { label: 'Active Users', val: '50k+' },
-        { label: 'Countries', val: '45+' },
-        { label: 'SMS Received', val: '2M+' },
-        { label: 'Uptime', val: '99.9%' },
-      ].map((stat, i) => (
-        <div key={i}>
-          <div className="text-3xl md:text-4xl font-bold text-main mb-1">{stat.val}</div>
-          <div className="text-sm text-muted font-medium uppercase tracking-wider">{stat.label}</div>
-        </div>
-      ))}
-    </div>
-  </section>
-);
-
-const Footer = () => (
-  <footer className="py-12 px-6 bg-background text-center">
-    <div className="flex items-center justify-center gap-2 font-bold text-xl text-main mb-6">
-      <Zap size={20} fill="currentColor" />
-      SwiftPlug
-    </div>
-    <div className="flex justify-center gap-6 text-sm text-muted mb-8">
-      <a href="#" className="hover:text-main">Terms</a>
-      <a href="#" className="hover:text-main">Privacy</a>
-      <a href="#" className="hover:text-main">Contact</a>
-    </div>
-    <p className="text-muted/60 text-sm">© 2026 SwiftPlug. All rights reserved.</p>
-  </footer>
-);
+  Loader, 
+  MessageCircle, 
+  Share2, 
+  Heart, 
+  Sparkles,
+  Ghost
+} from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import api from "@/api/axios";
+import { Pattern, ButtonWithLoader, ModeToggle } from "@/components/ui";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [username, setUsername] = useState("");
+
+
+  useEffect(() => {
+    // Simulate connection check
+    const checkServices = async () => {
+      setIsLoading(true);
+      try {
+        await api.get("/");
+      } catch (error) {
+        // Silent fail or simple log for dev
+        console.log("API check finished");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    checkServices();
+  }, []);
+
+  const handleGetLink = () => {
+    if (!username) {
+      toast.error("Please enter a username first");
+      return;
+    }
+    toast.success(`Link created for @${username}!`);
+    // Navigate to signup or dashboard logic here
+    window.location.href = "/signup?user=" + username;
+  };
+
+  const steps = [
+    {
+      icon: Ghost,
+      title: "1. Create Account",
+      desc: "Claim your unique anonymous link in seconds.",
+    },
+    {
+      icon: Share2,
+      title: "2. Share Link",
+      desc: "Post it on your Instagram Story, Snapchat, or Twitter.",
+    },
+    {
+      icon: MessageCircle,
+      title: "3. Get Truths",
+      desc: "Receive honest, anonymous messages from your friends.",
+    },
+    {
+      icon: Sparkles,
+      title: "4. Reply",
+      desc: "Share the best responses back to your story.",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-background text-main font-sans antialiased selection:bg-main selection:text-background">
-      <Navbar />
-      <Hero />
-      <Features />
-      <Stats />
-      <Footer />
-    </div>
+    <Pattern>
+      <div className="relative z-10 min-h-[100dvh] flex flex-col overflow-x-hidden font-sans text-main">
+        {/* Header */}
+        <header className="w-full p-6 md:p-8 flex justify-between items-center max-w-7xl mx-auto z-20">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-main text-background rounded-xl">
+               <Ghost className="w-6 h-6 md:w-7 md:h-7" />
+            </div>
+            <span className="text-xl font-bold tracking-tight text-main">
+              Anonymous
+            </span>
+          </div>
+          <div className="flex items-center gap-4">
+            <ModeToggle />
+          </div>
+        </header>
+
+        <main className="flex-1 flex flex-col items-center justify-center px-4 pb-12 md:pb-20 w-full max-w-7xl mx-auto relative">
+          <AnimatePresence>
+            {isLoading ? (
+              <div className="center gap-3 text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="relative">
+                  <Loader size={28} className="animate-spin text-main" />
+                </div>
+              </div>
+            ) : (
+              <motion.div
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 40, opacity: 0 }}
+                transition={{ delay: 0.3 }}
+                className="space-y-16 text-center w-full"
+              >
+                {/* Hero Section */}
+                <div className="space-y-8 max-w-3xl mx-auto mt-8 md:mt-0">
+                  <motion.div
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.5, type: "spring" }}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-line bg-secondary/50 backdrop-blur-md text-sm font-medium text-muted"
+                  >
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span>
+                      <CountUp end={50000} separator="," duration={2.5} />+ messages sent today
+                    </span>
+                  </motion.div>
+
+                  <motion.h1
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                    className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-main leading-[0.9]"
+                  >
+                    Send me <br/>
+                    <span className="text-muted">Anonymous</span> <br/>
+                    Messages!
+                  </motion.h1>
+
+                  <motion.p
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.9 }}
+                    className="text-muted text-lg md:text-xl max-w-xl mx-auto leading-relaxed"
+                  >
+                    Share your unique link and see what your friends 
+                    <span className="text-main font-semibold italic"> really</span> think. 
+                    No names attached.
+                  </motion.p>
+                  
+                  {/* Interactive Username Input */}
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 1.1 }}
+                    className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto w-full pt-4"
+                  >
+                    <div className="relative w-full">
+                      <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted font-medium">
+                        anonymous.com/
+                      </div>
+                      <input 
+                        type="text" 
+                        placeholder="username" 
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="w-full h-14 pl-[140px] pr-4 rounded-2xl bg-background border-2 border-line focus:border-main focus:ring-0 text-lg font-medium placeholder:text-muted/50 transition-all"
+                      />
+                    </div>
+                    <ButtonWithLoader
+                      loading={false}
+                      initialText="Get Link"
+                      loadingText=""
+                      onClick={handleGetLink}
+                      className="h-14 px-8 rounded-2xl text-lg font-bold bg-main text-background hover:bg-main/90 transition-all w-full sm:w-auto min-w-[140px] shadow-xl hover:translate-y-[-2px] hover:shadow-2xl"
+                    />
+                  </motion.div>
+                </div>
+
+                {/* Social Proof / Cards */}
+                <motion.div
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1.3 }}
+                  className="relative"
+                >
+                   {/* Decorative elements behind */}
+                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-purple-500/5 via-transparent to-orange-500/5 blur-3xl rounded-full -z-10" />
+
+                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto px-4">
+                      {/* Fake Message Card 1 */}
+                      <div className="p-6 rounded-3xl bg-background border border-line text-left shadow-sm rotate-[-3deg] hover:rotate-0 transition-transform duration-300">
+                        <div className="flex justify-between items-start mb-4">
+                          <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-500">
+                            <Heart size={20} fill="currentColor" />
+                          </div>
+                          <span className="text-xs text-muted font-mono">
+                             <CountUp end={12} duration={2} />m ago
+                          </span>
+                        </div>
+                        <p className="text-lg font-medium text-main">"I've always had a crush on you... just too shy to say it 🙈"</p>
+                      </div>
+
+                      {/* Fake Message Card 2 */}
+                      <div className="p-6 rounded-3xl bg-main text-background border border-main text-left shadow-xl scale-105 z-10">
+                        <div className="flex justify-between items-start mb-4">
+                          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
+                            <Ghost size={20} />
+                          </div>
+                          <span className="text-xs text-white/60 font-mono">
+                            <CountUp end={2} duration={4} />m ago
+                          </span>
+                        </div>
+                        <p className="text-lg font-medium">"Where did you get that hoodie you wore today? It looked fire!"</p>
+                      </div>
+
+                      {/* Fake Message Card 3 */}
+                      <div className="p-6 rounded-3xl bg-background border border-line text-left shadow-sm rotate-[3deg] hover:rotate-0 transition-transform duration-300">
+                         <div className="flex justify-between items-start mb-4">
+                          <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                            <MessageCircle size={20} />
+                          </div>
+                          <span className="text-xs text-muted font-mono">
+                            <CountUp end={1} duration={3} />h ago
+                          </span>
+                        </div>
+                        <p className="text-lg font-medium text-main">"Are you going to the party this weekend?"</p>
+                      </div>
+                   </div>
+                </motion.div>
+
+                {/* How it Works */}
+                <motion.div
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1.5 }}
+                  className="pt-16 w-full max-w-6xl mx-auto"
+                >
+                  <p className="text-muted text-sm uppercase tracking-widest mb-10 font-bold">
+                    How it works
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {steps.map((step, idx) => (
+                      <div
+                        key={idx}
+                        className="flex flex-col items-center p-6 rounded-2xl border border-transparent hover:border-line hover:bg-secondary/30 transition-all duration-300"
+                      >
+                        <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center mb-6 text-main">
+                          <step.icon size={32} strokeWidth={1.5} />
+                        </div>
+                        <h3 className="font-bold text-xl mb-2 text-main">{step.title}</h3>
+                        <p className="text-muted text-sm leading-relaxed max-w-[200px]">{step.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </main>
+      </div>
+    </Pattern>
   );
 }
-

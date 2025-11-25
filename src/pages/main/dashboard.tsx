@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import Header from "@/layouts/Header";
 import BottomNav from "@/layouts/BottomNav";
 import { WalletCard } from "@/components/ui";
-import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 interface ActiveOrder {
@@ -23,10 +22,9 @@ interface ActiveOrder {
 }
 
 export default function Dashboard() {
-  const { user } = useAuth();
   const navigate = useNavigate();
-  const [totalNumbers, setTotalNumbers] = useState(42);
-  const [activeOrder, setActiveOrder] = useState<ActiveOrder | null>(null);
+  const [totalNumbers] = useState(42);
+  const [activeOrder] = useState<ActiveOrder | null>(null);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);

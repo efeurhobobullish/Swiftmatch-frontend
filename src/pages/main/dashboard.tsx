@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { 
-  Bell, 
   ChevronDown,
   Search,
   CheckCircle2,
@@ -13,6 +12,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import Header from "@/layouts/Header"; // Import the Header component
 import BottomNav from "@/layouts/BottomNav";
 import { ModeToggle, ButtonWithLoader, WalletCard } from "@/components/ui";
 
@@ -99,27 +99,10 @@ export default function Dashboard() {
     toast.success("Copied to clipboard");
   };
 
-
   return (
     <div className="min-h-screen bg-background text-main font-sans pb-32">
-      {/* Header */}
-      <header className="sticky top-0 z-30 bg-background/90 backdrop-blur-md border-b border-line px-4 py-4">
-        <div className="main flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-violet-900 to-pink-400 rounded-lg center text-white">
-              <Zap size={18} fill="currentColor" />
-            </div>
-            <span className="font-jaro text-xl tracking-wide">SWIFT</span>
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <ModeToggle />
-            <button className="relative w-10 h-10 rounded-full bg-secondary border border-line center text-main hover:bg-line transition-colors">
-              <Bell size={20} />
-            </button>
-          </div>
-        </div>
-      </header>
+      {/* Use the imported Header component */}
+      <Header />
 
       <main className="main pt-6 space-y-8">
         {/* Wallet Card */}

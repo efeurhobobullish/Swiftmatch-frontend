@@ -24,10 +24,10 @@ export default function Dashboard() {
   const [balance, setBalance] = useState(12500.00);
   const [totalNumbers, setTotalNumbers] = useState(42); 
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const [selectedCountry, setSelectedCountry] = useState<Country>(ALL_COUNTRIES[0]);
   const [selectedService, setSelectedService] = useState<Service>(ALL_SERVICES[0]);
-  
+
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
   const [countrySearch, setCountrySearch] = useState("");
@@ -115,12 +115,12 @@ export default function Dashboard() {
       </header>
 
       <main className="layout pt-6 space-y-8">
-        
-        {/* UPDATED: Balance Card with Neat Blue Gradient */}
+
+        {/* UPDATED: Balance Card matches Orange Theme */}
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-[2rem] p-6 shadow-xl shadow-blue-500/20 relative overflow-hidden"
+          className="bg-gradient-to-br from-orange-500 to-orange-700 text-white rounded-[2rem] p-6 shadow-xl shadow-orange-500/20 relative overflow-hidden"
         >
           {/* Decorative elements */}
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
@@ -138,7 +138,7 @@ export default function Dashboard() {
                 <Plus size={16} /> Fund
               </button>
             </div>
-            
+
             <div className="flex items-center gap-2 text-white/90 text-xs font-mono bg-black/10 w-fit px-3 py-1.5 rounded-lg backdrop-blur-md border border-white/10">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
               Wallet Active
@@ -157,7 +157,7 @@ export default function Dashboard() {
                  <h3 className="text-2xl font-bold text-main leading-tight">{totalNumbers}</h3>
               </div>
            </div>
-           
+
            <button className="group flex items-center gap-2 px-5 py-2.5 rounded-xl bg-secondary hover:bg-main hover:text-white transition-all text-sm font-bold text-main">
              View All
              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -173,7 +173,6 @@ export default function Dashboard() {
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden"
             >
-              {/* Also updated Active Order card to match the blue theme slightly */}
               <div className="bg-main text-background rounded-3xl p-6 shadow-2xl relative mb-8">
                  <div className="flex justify-between items-start mb-6">
                     <div className="flex items-center gap-3">
@@ -355,7 +354,7 @@ export default function Dashboard() {
                <p className="text-xs text-muted font-medium">Total Cost</p>
                <p className="text-2xl font-bold text-main">₦{selectedService.price.toFixed(2)}</p>
             </div>
-            {/* Using btn-primary class which now uses your new Blue theme */}
+            {/* btn-primary now maps to orange in your index.css */}
             <ButtonWithLoader 
                loading={isLoading}
                initialText="Get Number"
@@ -369,7 +368,7 @@ export default function Dashboard() {
         {!activeOrder && (
           <div className="pb-4">
             <h3 className="font-bold text-lg mb-4">Recent Activity</h3>
-            
+
             <div className="border border-dashed border-line rounded-3xl p-10 flex flex-col items-center justify-center text-center bg-secondary/10">
               <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4">
                  <History size={32} className="text-muted/50" />

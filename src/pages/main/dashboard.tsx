@@ -8,13 +8,12 @@ import {
   Copy,
   Clock,
   History,
-  Zap
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import Header from "@/layouts/Header"; // Import the Header component
 import BottomNav from "@/layouts/BottomNav";
-import { ModeToggle, ButtonWithLoader, WalletCard } from "@/components/ui";
+import { ButtonWithLoader, WalletCard } from "@/components/ui";
 
 import { ALL_COUNTRIES, ALL_SERVICES } from "@/constants/data";
 import type { Country, Service } from "@/constants/data";

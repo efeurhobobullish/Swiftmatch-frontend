@@ -12,15 +12,14 @@ import {
   Search,
   CheckCircle2,
   Ghost,
-  MapPin,
-  Globe,
-  Loader2
+  Smartphone, // Added for the new card
+  ArrowRight // Added for the button
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import BottomNav from "@/layouts/BottomNav";
 import { ModeToggle, ButtonWithLoader } from "@/components/ui";
 
-// Mock Data with Naira Prices
+// Mock Data
 const COUNTRIES = [
   { id: "us", name: "United States", code: "+1", flag: "🇺🇸" },
   { id: "ng", name: "Nigeria", code: "+234", flag: "🇳🇬" },
@@ -38,11 +37,11 @@ const SERVICES = [
 ];
 
 export default function Dashboard() {
-  const [balance] = useState(12500.00); // Naira Balance
+  const [balance] = useState(12500.00); 
+  const [totalNumbers] = useState(42); // Mock total purchased count
   const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
   const [selectedService, setSelectedService] = useState(SERVICES[0]);
   
-  // State for simulated dropdowns
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
 
@@ -77,7 +76,6 @@ export default function Dashboard() {
           animate={{ y: 0, opacity: 1 }}
           className="bg-main text-background rounded-[2rem] p-6 shadow-xl relative overflow-hidden"
         >
-          {/* Decorative elements */}
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-background/10 rounded-full blur-2xl"></div>
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-background/5 rounded-full blur-xl"></div>
 
@@ -101,7 +99,28 @@ export default function Dashboard() {
           </div>
         </motion.div>
 
-        {/* Order Section (Real Dropdown Style) */}
+        {/* NEW SECTION: Total Numbers Purchased Stats */}
+        <div className="bg-card border border-line rounded-3xl p-5 shadow-sm flex items-center justify-between">
+           <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center text-main border border-line">
+                 <Smartphone size={22} />
+              </div>
+              <div>
+                 <p className="text-xs text-muted font-medium">Total Numbers</p>
+                 <h3 className="text-2xl font-bold text-main leading-tight">{totalNumbers}</h3>
+              </div>
+           </div>
+           
+           <button 
+             onClick={() => {}} // Add navigation logic here
+             className="group flex items-center gap-2 px-5 py-2.5 rounded-xl bg-secondary hover:bg-main hover:text-background transition-all text-sm font-bold"
+           >
+             View All
+             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+           </button>
+        </div>
+
+        {/* Order Section */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-lg">New Order</h3>
@@ -187,7 +206,6 @@ export default function Dashboard() {
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden border-t border-line mx-4"
                    >
-                      {/* Search inside dropdown */}
                       <div className="relative mt-2 mb-2">
                         <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted"/>
                         <input type="text" placeholder="Search service..." className="w-full bg-secondary/50 rounded-lg py-2 pl-9 pr-3 text-xs border border-transparent focus:border-line transition-all" />
@@ -246,7 +264,6 @@ export default function Dashboard() {
 
       </main>
 
-      {/* Floating Navigation */}
       <BottomNav />
     </div>
   );

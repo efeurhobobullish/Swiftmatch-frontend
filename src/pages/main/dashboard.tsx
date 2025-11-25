@@ -2,48 +2,43 @@ import { useState } from "react";
 import { 
   Bell, 
   Plus,
-  MessageCircle,
-  Send,
-  Instagram,
-  Facebook,
-  Wallet,
-  Car,
   ChevronDown,
   Search,
   CheckCircle2,
   Ghost,
-  Smartphone, // Added for the new card
-  ArrowRight // Added for the button
+  Smartphone,
+  ArrowRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import BottomNav from "@/layouts/BottomNav";
 import { ModeToggle, ButtonWithLoader } from "@/components/ui";
 
-// Mock Data
-const COUNTRIES = [
-  { id: "us", name: "United States", code: "+1", flag: "🇺🇸" },
-  { id: "ng", name: "Nigeria", code: "+234", flag: "🇳🇬" },
-  { id: "uk", name: "United Kingdom", code: "+44", flag: "🇬🇧" },
-  { id: "ca", name: "Canada", code: "+1", flag: "🇨🇦" },
-];
-
-const SERVICES = [
-  { id: "wa", name: "WhatsApp", price: 450, icon: MessageCircle, color: "text-green-500" },
-  { id: "tg", name: "Telegram", price: 350, icon: Send, color: "text-blue-500" },
-  { id: "ig", name: "Instagram", price: 150, icon: Instagram, color: "text-pink-500" },
-  { id: "fb", name: "Facebook", price: 200, icon: Facebook, color: "text-blue-600" },
-  { id: "pp", name: "PayPal", price: 600, icon: Wallet, color: "text-blue-800" },
-  { id: "ub", name: "Uber", price: 250, icon: Car, color: "text-main" },
-];
+// Import your new comprehensive data
+import { ALL_COUNTRIES, ALL_SERVICES } from "@/constants/data";
 
 export default function Dashboard() {
-  const [balance] = useState(12500.00); 
-  const [totalNumbers] = useState(42); // Mock total purchased count
-  const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
-  const [selectedService, setSelectedService] = useState(SERVICES[0]);
+  const [balance] = useState(12500.00);
+  const [totalNumbers] = useState(42); 
+  
+  // Set default to first items in the big list
+  const [selectedCountry, setSelectedCountry] = useState(ALL_COUNTRIES.find(c => c.id === "us") || ALL_COUNTRIES[0]);
+  const [selectedService, setSelectedService] = useState(ALL_SERVICES.find(s => s.id === "wa") || ALL_SERVICES[0]);
   
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
+
+  // Search States for the dropdowns
+  const [countrySearch, setCountrySearch] = useState("");
+  const [serviceSearch, setServiceSearch] = useState("");
+
+  // Filtering Logic
+  const filteredCountries = ALL_COUNTRIES.filter(c => 
+    c.name.toLowerCase().includes(countrySearch.toLowerCase())
+  );
+
+  const filteredServices = ALL_SERVICES.filter(s => 
+    s.name.toLowerCase().includes(serviceSearch.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-background text-main font-sans pb-32">
@@ -70,7 +65,7 @@ export default function Dashboard() {
 
       <main className="layout pt-6 space-y-8">
         
-        {/* Balance Card (Naira) */}
+        {/* Balance Card */}
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -99,7 +94,7 @@ export default function Dashboard() {
           </div>
         </motion.div>
 
-        {/* NEW SECTION: Total Numbers Purchased Stats */}
+        {/* Total Numbers Purchased Stats */}
         <div className="bg-card border border-line rounded-3xl p-5 shadow-sm flex items-center justify-between">
            <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center text-main border border-line">
@@ -112,7 +107,7 @@ export default function Dashboard() {
            </div>
            
            <button 
-             onClick={() => {}} // Add navigation logic here
+             onClick={() => {}} 
              className="group flex items-center gap-2 px-5 py-2.5 rounded-xl bg-secondary hover:bg-main hover:text-background transition-all text-sm font-bold"
            >
              View All
@@ -130,6 +125,7 @@ export default function Dashboard() {
           </div>
 
           <div className="bg-card border border-line rounded-3xl p-1 shadow-sm">
+            
             {/* Country Selector */}
             <div className="relative z-20">
                <button 
@@ -157,8 +153,20 @@ export default function Dashboard() {
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden border-t border-line mx-4"
                    >
-                     <div className="py-2 space-y-1">
-                        {COUNTRIES.map(country => (
+                     {/* Search Bar for Countries */}
+                     <div className="relative mt-3 mb-2">
+                        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted"/>
+                        <input 
+                           type="text" 
+                           placeholder="Search country..." 
+                           value={countrySearch}
+                           onChange={(e) => setCountrySearch(e.target.value)}
+                           className="w-full bg-secondary/50 rounded-lg py-3 pl-9 pr-3 text-xs border border-transparent focus:border-line transition-all placeholder:text-muted/70" 
+                        />
+                      </div>
+
+                     <div className="py-2 space-y-1 max-h-[250px] overflow-y-auto custom-scrollbar">
+                        {filteredCountries.map(country => (
                           <button
                             key={country.id}
                             onClick={() => { setSelectedCountry(country); setIsCountryOpen(false); }}
@@ -171,6 +179,9 @@ export default function Dashboard() {
                              {selectedCountry.id === country.id && <CheckCircle2 size={16} className="text-main" />}
                           </button>
                         ))}
+                        {filteredCountries.length === 0 && (
+                           <div className="text-center py-4 text-xs text-muted">No country found</div>
+                        )}
                      </div>
                    </motion.div>
                  )}
@@ -206,12 +217,18 @@ export default function Dashboard() {
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden border-t border-line mx-4"
                    >
-                      <div className="relative mt-2 mb-2">
+                      <div className="relative mt-3 mb-2">
                         <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted"/>
-                        <input type="text" placeholder="Search service..." className="w-full bg-secondary/50 rounded-lg py-2 pl-9 pr-3 text-xs border border-transparent focus:border-line transition-all" />
+                        <input 
+                           type="text" 
+                           placeholder="Search service..." 
+                           value={serviceSearch}
+                           onChange={(e) => setServiceSearch(e.target.value)}
+                           className="w-full bg-secondary/50 rounded-lg py-3 pl-9 pr-3 text-xs border border-transparent focus:border-line transition-all placeholder:text-muted/70" 
+                        />
                       </div>
-                     <div className="py-2 space-y-1 max-h-[200px] overflow-y-auto custom-scrollbar">
-                        {SERVICES.map(service => (
+                     <div className="py-2 space-y-1 max-h-[250px] overflow-y-auto custom-scrollbar">
+                        {filteredServices.map(service => (
                           <button
                             key={service.id}
                             onClick={() => { setSelectedService(service); setIsServiceOpen(false); }}
@@ -224,6 +241,9 @@ export default function Dashboard() {
                              <span className="text-xs font-mono">₦{service.price}</span>
                           </button>
                         ))}
+                         {filteredServices.length === 0 && (
+                           <div className="text-center py-4 text-xs text-muted">No service found</div>
+                        )}
                      </div>
                    </motion.div>
                  )}

@@ -8,4 +8,4 @@ export {default as ModeToggle} from "./mode-toggle";
 export {default as GobackButton} from "./GobackButton";
 export {default as WalletCard} from "./WalletCard";
 export {default as Pattern} from "./pattern";
-
+export {default as NotificationIcon} from "./notification-icon";

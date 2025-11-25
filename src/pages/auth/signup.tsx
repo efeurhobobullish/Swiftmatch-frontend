@@ -1,209 +1,240 @@
-import { useState, useEffect } from "react";
-import type { ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
+import { Eye, EyeOff, Mail, Lock, User, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { 
-  Ghost, 
-  User, 
-  Lock, 
-  Eye, 
-  EyeOff,
-  Check
-} from "lucide-react";
-import { Pattern, ButtonWithLoader, ModeToggle } from "@/components/ui";
+import { ButtonWithLoader } from "@/components/ui";
 
-export default function Signup() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  // Form State
-  const [formData, setFormData] = useState({
+interface SignupFormData {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+interface SignupProps {
+  onToggleMode: () => void;
+}
+
+export default function Signup({ onToggleMode }: SignupProps): JSX.Element {
+  const [formData, setFormData] = useState<SignupFormData>({
     username: "",
+    email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Check for username in URL params (from Home page input)
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const userParam = params.get("user");
-    if (userParam) {
-      setFormData(prev => ({ ...prev, username: userParam }));
-    }
-  }, []);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    
-    // Basic Validation
-    if (!formData.username || !formData.password) {
+  const validateForm = (): boolean => {
+    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
       toast.error("Please fill in all fields");
-      return;
+      return false;
     }
-    
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
+
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      toast.error("Please enter a valid email address");
+      return false;
+    }
+
+    if (formData.username.length < 3) {
+      toast.error("Username must be at least 3 characters long");
+      return false;
     }
 
     if (formData.password.length < 6) {
-      toast.error("Password must be at least 6 characters");
+      toast.error("Password must be at least 6 characters long");
+      return false;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
       return;
     }
 
     setIsLoading(true);
 
-    // Simulate API Call
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      toast.success("Account created successfully!");
-      // window.location.href = "/dashboard"; // Redirect logic
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Here you would typically make an API call to your backend
+      // await api.post("/auth/signup", {
+      //   username: formData.username,
+      //   email: formData.email,
+      //   password: formData.password,
+      // });
+      
+      toast.success("Account created successfully! Redirecting...");
+      // Redirect to dashboard or verification page
+      window.location.href = "/dashboard";
     } catch (error) {
-      toast.error("Something went wrong. Please try again.");
+      toast.error("Signup failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Pattern>
-      <div className="relative z-10 min-h-[100dvh] flex flex-col font-sans text-main">
-        
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md"
+      >
         {/* Header */}
-        <header className="w-full p-6 flex justify-between items-center max-w-7xl mx-auto z-20">
-          <div 
-            className="flex items-center gap-3 cursor-pointer" 
-            onClick={() => window.location.href = "/"}
-          >
-            <div className="w-10 h-10 flex items-center justify-center bg-main text-background rounded-xl">
-               <Ghost className="w-6 h-6" />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-main hidden sm:block">
-              Anonymous
-            </span>
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-main text-background rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <User className="w-8 h-8" />
           </div>
-          <ModeToggle />
-        </header>
+          <h1 className="text-3xl font-bold text-main mb-2">Create Account</h1>
+          <p className="text-muted">Join SwiftPlug and get your virtual number</p>
+        </div>
 
-        {/* Main Content */}
-        <main className="flex-1 flex items-center justify-center px-4 py-12">
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            className="w-full max-w-md"
-          >
-            {/* Card */}
-            <div className="bg-background/80 backdrop-blur-xl border border-line p-8 rounded-3xl shadow-2xl relative overflow-hidden">
-              
-              {/* Decorative Gradient Blob */}
-              <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-purple-500/20 to-orange-500/20 blur-3xl rounded-full pointer-events-none" />
-
-              <div className="text-center mb-8 relative z-10">
-                <h1 className="text-3xl font-bold mb-2 text-main tracking-tight">Claim your link</h1>
-                <p className="text-muted text-sm">
-                  Create an account to start receiving anonymous messages.
-                </p>
-              </div>
-
-              <form onSubmit={handleSignup} className="space-y-5 relative z-10">
-                {/* Username Input */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted ml-1">Username</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted group-focus-within:text-main transition-colors">
-                      <User size={18} />
-                    </div>
-                    <input
-                      type="text"
-                      name="username"
-                      value={formData.username}
-                      onChange={handleChange}
-                      placeholder="yourname"
-                      className="w-full h-12 pl-11 pr-4 rounded-xl bg-secondary/30 border border-line focus:border-main focus:bg-background focus:ring-0 text-main placeholder:text-muted/50 transition-all outline-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Password Input */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted ml-1">Password</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted group-focus-within:text-main transition-colors">
-                      <Lock size={18} />
-                    </div>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="••••••••"
-                      className="w-full h-12 pl-11 pr-12 rounded-xl bg-secondary/30 border border-line focus:border-main focus:bg-background focus:ring-0 text-main placeholder:text-muted/50 transition-all outline-none"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-muted hover:text-main transition-colors cursor-pointer"
-                    >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Confirm Password Input */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted ml-1">Confirm Password</label>
-                  <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted group-focus-within:text-main transition-colors">
-                      <Check size={18} />
-                    </div>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      placeholder="••••••••"
-                      className="w-full h-12 pl-11 pr-4 rounded-xl bg-secondary/30 border border-line focus:border-main focus:bg-background focus:ring-0 text-main placeholder:text-muted/50 transition-all outline-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Submit Button */}
-                <div className="pt-4">
-                  <ButtonWithLoader
-                    loading={isLoading}
-                    initialText="Create Account"
-                    loadingText="Creating..."
-                    type="submit"
-                    className="w-full h-12 rounded-xl font-bold text-lg bg-main text-background hover:bg-main/90 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                  />
-                </div>
-              </form>
-
-              {/* Footer Links */}
-              <div className="mt-8 text-center text-sm text-muted">
-                <p>
-                  Already have an account?{" "}
-                  <a href="/login" className="text-main font-semibold hover:underline decoration-2 underline-offset-4 cursor-pointer">
-                    Login
-                  </a>
-                </p>
-              </div>
-
+        {/* Signup Form */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Username Field */}
+          <div className="space-y-2">
+            <label htmlFor="username" className="text-sm font-medium text-main">
+              Username
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted w-5 h-5" />
+              <input
+                id="username"
+                name="username"
+                type="text"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Choose a username"
+                className="w-full h-12 pl-10 pr-4 rounded-xl bg-background border-2 border-line focus:border-main focus:ring-0 text-main placeholder:text-muted/50 transition-all"
+                required
+                minLength={3}
+              />
             </div>
-            
-            {/* Terms */}
-            <p className="text-center text-xs text-muted/60 mt-6 max-w-xs mx-auto">
-              By signing up, you agree to our Terms of Service and Privacy Policy. 
-              We do not sell your data.
-            </p>
-          </motion.div>
-        </main>
-      </div>
-    </Pattern>
+          </div>
+
+          {/* Email Field */}
+          <div className="space-y-2">
+            <label htmlFor="email" className="text-sm font-medium text-main">
+              Email Address
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted w-5 h-5" />
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+                className="w-full h-12 pl-10 pr-4 rounded-xl bg-background border-2 border-line focus:border-main focus:ring-0 text-main placeholder:text-muted/50 transition-all"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Password Field */}
+          <div className="space-y-2">
+            <label htmlFor="password" className="text-sm font-medium text-main">
+              Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted w-5 h-5" />
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Create a password"
+                className="w-full h-12 pl-10 pr-12 rounded-xl bg-background border-2 border-line focus:border-main focus:ring-0 text-main placeholder:text-muted/50 transition-all"
+                required
+                minLength={6}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-main transition-colors"
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            </div>
+            <p className="text-xs text-muted">Must be at least 6 characters long</p>
+          </div>
+
+          {/* Confirm Password Field */}
+          <div className="space-y-2">
+            <label htmlFor="confirmPassword" className="text-sm font-medium text-main">
+              Confirm Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted w-5 h-5" />
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm your password"
+                className="w-full h-12 pl-10 pr-12 rounded-xl bg-background border-2 border-line focus:border-main focus:ring-0 text-main placeholder:text-muted/50 transition-all"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted hover:text-main transition-colors"
+              >
+                {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <ButtonWithLoader
+            loading={isLoading}
+            initialText="Create Account"
+            loadingText="Creating Account..."
+            onClick={handleSubmit}
+            className="w-full h-12 rounded-xl text-lg font-bold bg-main text-background hover:bg-main/90 transition-all shadow-lg hover:translate-y-[-2px] hover:shadow-xl flex items-center justify-center gap-2"
+          >
+            Create Account <ArrowRight size={20} />
+          </ButtonWithLoader>
+        </form>
+
+        {/* Toggle to Login */}
+        <div className="text-center mt-6">
+          <p className="text-muted">
+            Already have an account?{" "}
+            <button
+              type="button"
+              onClick={onToggleMode}
+              className="text-main font-semibold hover:underline transition-colors"
+            >
+              Sign in
+            </button>
+          </p>
+        </div>
+      </motion.div>
+    </div>
   );
 }

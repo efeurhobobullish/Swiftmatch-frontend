@@ -17,15 +17,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import api from "@/api/axios";
 import { Pattern, ButtonWithLoader, ModeToggle } from "@/components/ui";
 
-// Type definitions
+// Define types for our data
 interface Feature {
-  icon: LucideIcon;
+  icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
   title: string;
   desc: string;
 }
 
 interface Step {
-  icon: LucideIcon;
+  icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
   title: string;
   desc: string;
 }
@@ -35,11 +35,11 @@ interface FAQ {
   answer: string;
 }
 
-export default function Home(): TSX.Element {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const checkServices = async (): Promise<void> => {
+    const checkServices = async () => {
       setIsLoading(true);
       try {
         await api.get("/");
@@ -52,9 +52,9 @@ export default function Home(): TSX.Element {
     checkServices();
   }, []);
 
-  const handleGetStarted = (): void => {
-    toast.success("Redirecting to SwiftPlug dashboard...");
-    window.location.href = "/dashboard";
+  const handleGetStarted = () => {
+    toast.success("Redirectig...");
+    window.location.href = "/signup";
   };
 
   const features: Feature[] = [
@@ -245,18 +245,21 @@ export default function Home(): TSX.Element {
                   </h2>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {features.map((feature: Feature, idx: number) => (
-                      <div
-                        key={idx}
-                        className="flex flex-col items-center text-center p-6 rounded-2xl border border-line hover:border-main hover:bg-secondary/30 transition-all duration-300 group"
-                      >
-                        <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center mb-6 text-main group-hover:scale-110 transition-transform">
-                          <feature.icon size={32} strokeWidth={1.5} />
+                    {features.map((feature, idx) => {
+                      const IconComponent = feature.icon;
+                      return (
+                        <div
+                          key={idx}
+                          className="flex flex-col items-center text-center p-6 rounded-2xl border border-line hover:border-main hover:bg-secondary/30 transition-all duration-300 group"
+                        >
+                          <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center mb-6 text-main group-hover:scale-110 transition-transform">
+                            <IconComponent size={32} strokeWidth={1.5} />
+                          </div>
+                          <h3 className="font-bold text-xl mb-3 text-main">{feature.title}</h3>
+                          <p className="text-muted text-sm leading-relaxed">{feature.desc}</p>
                         </div>
-                        <h3 className="font-bold text-xl mb-3 text-main">{feature.title}</h3>
-                        <p className="text-muted text-sm leading-relaxed">{feature.desc}</p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </motion.section>
 
@@ -276,18 +279,21 @@ export default function Home(): TSX.Element {
                   </h2>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {steps.map((step: Step, idx: number) => (
-                      <div
-                        key={idx}
-                        className="flex flex-col items-center text-center p-6 rounded-2xl border border-transparent hover:border-line hover:bg-secondary/30 transition-all duration-300"
-                      >
-                        <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center mb-6 text-main">
-                          <step.icon size={32} strokeWidth={1.5} />
+                    {steps.map((step, idx) => {
+                      const IconComponent = step.icon;
+                      return (
+                        <div
+                          key={idx}
+                          className="flex flex-col items-center text-center p-6 rounded-2xl border border-transparent hover:border-line hover:bg-secondary/30 transition-all duration-300"
+                        >
+                          <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center mb-6 text-main">
+                            <IconComponent size={32} strokeWidth={1.5} />
+                          </div>
+                          <h3 className="font-bold text-xl mb-3 text-main">{step.title}</h3>
+                          <p className="text-muted text-sm leading-relaxed">{step.desc}</p>
                         </div>
-                        <h3 className="font-bold text-xl mb-3 text-main">{step.title}</h3>
-                        <p className="text-muted text-sm leading-relaxed">{step.desc}</p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </motion.section>
 
@@ -307,7 +313,7 @@ export default function Home(): TSX.Element {
                   </h2>
                   
                   <div className="space-y-4 text-left">
-                    {faqs.map((faq: FAQ, idx: number) => (
+                    {faqs.map((faq, idx) => (
                       <div
                         key={idx}
                         className="p-6 rounded-2xl border border-line bg-secondary/30 hover:bg-secondary/50 transition-all duration-300"
@@ -370,7 +376,7 @@ export default function Home(): TSX.Element {
               </div>
               
               <div className="mt-4 md:mt-0 text-sm text-muted">
-                © 2025 SwiftPlug. All rights reserved.
+                © 2026 SwiftPlug. All rights reserved.
               </div>
             </div>
           </div>

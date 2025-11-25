@@ -11,17 +11,36 @@ import {
   MessageCircle,
   Smartphone,
   CreditCard,
-  ArrowRight
+  ArrowRight,
+  LucideIcon
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import api from "@/api/axios";
 import { Pattern, ButtonWithLoader, ModeToggle } from "@/components/ui";
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
+// Type definitions
+interface Feature {
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+}
+
+interface Step {
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+}
+
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+export default function Home(): JSX.Element {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const checkServices = async () => {
+    const checkServices = async (): Promise<void> => {
       setIsLoading(true);
       try {
         await api.get("/");
@@ -34,12 +53,12 @@ export default function Home() {
     checkServices();
   }, []);
 
-  const handleGetStarted = () => {
+  const handleGetStarted = (): void => {
     toast.success("Redirecting to SwiftPlug dashboard...");
     window.location.href = "/dashboard";
   };
 
-  const features = [
+  const features: Feature[] = [
     {
       icon: Zap,
       title: "Instant Activation",
@@ -62,7 +81,7 @@ export default function Home() {
     },
   ];
 
-  const steps = [
+  const steps: Step[] = [
     {
       icon: Smartphone,
       title: "1. Create Account",
@@ -85,7 +104,7 @@ export default function Home() {
     },
   ];
 
-  const faqs = [
+  const faqs: FAQ[] = [
     {
       question: "How to get started with SwiftPlug?",
       answer: "Simply sign up, top up your account, and choose your virtual number. It takes less than 5 minutes!"
@@ -227,7 +246,7 @@ export default function Home() {
                   </h2>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {features.map((feature, idx) => (
+                    {features.map((feature: Feature, idx: number) => (
                       <div
                         key={idx}
                         className="flex flex-col items-center text-center p-6 rounded-2xl border border-line hover:border-main hover:bg-secondary/30 transition-all duration-300 group"
@@ -258,7 +277,7 @@ export default function Home() {
                   </h2>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {steps.map((step, idx) => (
+                    {steps.map((step: Step, idx: number) => (
                       <div
                         key={idx}
                         className="flex flex-col items-center text-center p-6 rounded-2xl border border-transparent hover:border-line hover:bg-secondary/30 transition-all duration-300"
@@ -289,7 +308,7 @@ export default function Home() {
                   </h2>
                   
                   <div className="space-y-4 text-left">
-                    {faqs.map((faq, idx) => (
+                    {faqs.map((faq: FAQ, idx: number) => (
                       <div
                         key={idx}
                         className="p-6 rounded-2xl border border-line bg-secondary/30 hover:bg-secondary/50 transition-all duration-300"
@@ -352,7 +371,7 @@ export default function Home() {
               </div>
               
               <div className="mt-4 md:mt-0 text-sm text-muted">
-                © 2024 SwiftPlug. All rights reserved.
+                © 2025 SwiftPlug. All rights reserved.
               </div>
             </div>
           </div>

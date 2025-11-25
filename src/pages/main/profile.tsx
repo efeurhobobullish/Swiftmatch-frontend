@@ -1,4 +1,4 @@
-import { User, Settings, Moon, Shield, HelpCircle, LogOut, ChevronRight, BellRing } from "lucide-react";
+import { User, Moon, Shield, HelpCircle, LogOut, ChevronRight, BellRing } from "lucide-react";
 import BottomNav from "@/layouts/BottomNav";
 import { ModeToggle } from "@/components/ui";
 

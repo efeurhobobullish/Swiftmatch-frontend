@@ -15,18 +15,18 @@ interface SignupProps {
   onToggleMode: () => void;
 }
 
-export default function Signup({ onToggleMode }: SignupProps): JSX.Element {
+export default function Signup({ onToggleMode }: SignupProps) {
   const [formData, setFormData] = useState<SignupFormData>({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -34,7 +34,7 @@ export default function Signup({ onToggleMode }: SignupProps): JSX.Element {
     }));
   };
 
-  const validateForm = (): boolean => {
+  const validateForm = () => {
     if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
       toast.error("Please fill in all fields");
       return false;
@@ -63,7 +63,7 @@ export default function Signup({ onToggleMode }: SignupProps): JSX.Element {
     return true;
   };
 
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!validateForm()) {
@@ -75,16 +75,7 @@ export default function Signup({ onToggleMode }: SignupProps): JSX.Element {
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Here you would typically make an API call to your backend
-      // await api.post("/auth/signup", {
-      //   username: formData.username,
-      //   email: formData.email,
-      //   password: formData.password,
-      // });
-      
       toast.success("Account created successfully! Redirecting...");
-      // Redirect to dashboard or verification page
       window.location.href = "/dashboard";
     } catch (error) {
       toast.error("Signup failed. Please try again.");

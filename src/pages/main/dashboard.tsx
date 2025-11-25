@@ -17,29 +17,24 @@ import { toast } from "sonner";
 import BottomNav from "@/layouts/BottomNav";
 import { ModeToggle, ButtonWithLoader } from "@/components/ui";
 
-// FIXED IMPORTS: Importing types separately using 'import type'
-import { ALL_COUNTRIES, ALL_SERVICES } from "@/constants/data";
-import type { Country, Service } from "@/constants/data";
+import { ALL_COUNTRIES, ALL_SERVICES } from "@/constant/data";
+import type { Country, Service } from "@/constant/data";
 
 export default function Dashboard() {
   const [balance, setBalance] = useState(12500.00);
   const [totalNumbers, setTotalNumbers] = useState(42); 
   const [isLoading, setIsLoading] = useState(false);
   
-  // Selection State (Typed correctly)
   const [selectedCountry, setSelectedCountry] = useState<Country>(ALL_COUNTRIES[0]);
   const [selectedService, setSelectedService] = useState<Service>(ALL_SERVICES[0]);
   
-  // Dropdown UI State
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
   const [countrySearch, setCountrySearch] = useState("");
   const [serviceSearch, setServiceSearch] = useState("");
 
-  // Active Order State
   const [activeOrder, setActiveOrder] = useState<any>(null);
 
-  // Filtering
   const filteredCountries = ALL_COUNTRIES.filter((c: Country) => 
     c.name.toLowerCase().includes(countrySearch.toLowerCase())
   );
@@ -60,14 +55,11 @@ export default function Dashboard() {
 
     setIsLoading(true);
 
-    // Simulate Network Request
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    // Deduct Balance
     setBalance(prev => prev - selectedService.price);
     setTotalNumbers(prev => prev + 1);
 
-    // Create Order
     const newOrder = {
       id: Math.random().toString(36).substr(2, 9),
       service: selectedService,
@@ -82,7 +74,6 @@ export default function Dashboard() {
     setIsLoading(false);
     toast.success("Number generated successfully!");
 
-    // Simulate Receiving SMS after 6 seconds
     setTimeout(() => {
       setActiveOrder((prev: any) => {
         if (!prev) return null;
@@ -103,7 +94,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background text-main font-sans pb-32">
-      {/* Top Header */}
       <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-line px-6 py-4">
         <div className="layout flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -126,29 +116,30 @@ export default function Dashboard() {
 
       <main className="layout pt-6 space-y-8">
         
-        {/* Balance Card */}
+        {/* UPDATED: Balance Card with Neat Blue Gradient */}
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="bg-main text-background rounded-[2rem] p-6 shadow-xl relative overflow-hidden"
+          className="bg-gradient-to-br from-blue-600 to-blue-800 text-white rounded-[2rem] p-6 shadow-xl shadow-blue-500/20 relative overflow-hidden"
         >
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-background/10 rounded-full blur-2xl"></div>
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-background/5 rounded-full blur-xl"></div>
+          {/* Decorative elements */}
+          <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
 
           <div className="relative z-10">
             <div className="flex justify-between items-start mb-8">
               <div>
-                <p className="text-background/70 text-sm font-medium mb-1">Available Balance</p>
+                <p className="text-white/80 text-sm font-medium mb-1">Available Balance</p>
                 <h1 className="text-4xl font-bold tracking-tight flex items-start gap-1">
                    <span className="text-2xl mt-1">₦</span>{balance.toLocaleString(undefined, {minimumFractionDigits: 2})}
                 </h1>
               </div>
-              <button className="bg-background/20 hover:bg-background/30 text-background px-4 py-2 rounded-xl text-sm font-medium backdrop-blur-sm transition-colors flex items-center gap-2">
+              <button className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl text-sm font-bold backdrop-blur-sm transition-colors flex items-center gap-2 border border-white/10 shadow-lg">
                 <Plus size={16} /> Fund
               </button>
             </div>
             
-            <div className="flex items-center gap-2 text-background/80 text-xs font-mono bg-background/10 w-fit px-3 py-1.5 rounded-lg backdrop-blur-md border border-background/10">
+            <div className="flex items-center gap-2 text-white/90 text-xs font-mono bg-black/10 w-fit px-3 py-1.5 rounded-lg backdrop-blur-md border border-white/10">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
               Wallet Active
             </div>
@@ -167,13 +158,13 @@ export default function Dashboard() {
               </div>
            </div>
            
-           <button className="group flex items-center gap-2 px-5 py-2.5 rounded-xl bg-secondary hover:bg-main hover:text-background transition-all text-sm font-bold">
+           <button className="group flex items-center gap-2 px-5 py-2.5 rounded-xl bg-secondary hover:bg-main hover:text-white transition-all text-sm font-bold text-main">
              View All
              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
            </button>
         </div>
 
-        {/* --- ACTIVE ORDER SECTION --- */}
+        {/* Active Order Section */}
         <AnimatePresence>
           {activeOrder && (
             <motion.div
@@ -182,10 +173,10 @@ export default function Dashboard() {
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden"
             >
+              {/* Also updated Active Order card to match the blue theme slightly */}
               <div className="bg-main text-background rounded-3xl p-6 shadow-2xl relative mb-8">
                  <div className="flex justify-between items-start mb-6">
                     <div className="flex items-center gap-3">
-                       {/* Service Icon */}
                        <div className="w-12 h-12 rounded-2xl bg-background/20 flex items-center justify-center">
                           <activeOrder.service.icon size={24} className="text-background" />
                        </div>
@@ -199,7 +190,6 @@ export default function Dashboard() {
                     </div>
                  </div>
 
-                 {/* The Number */}
                  <div className="bg-background/10 rounded-2xl p-4 flex items-center justify-between mb-4 border border-background/10">
                     <span className="text-2xl font-mono font-bold tracking-wider">{activeOrder.number}</span>
                     <button 
@@ -210,7 +200,6 @@ export default function Dashboard() {
                     </button>
                  </div>
 
-                 {/* SMS Code Status */}
                  <div className="flex items-center justify-center min-h-[60px] bg-background text-main rounded-2xl p-4">
                     {activeOrder.status === "waiting" ? (
                       <div className="flex items-center gap-3 animate-pulse">
@@ -361,23 +350,22 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Checkout Action */}
           <div className="bg-card border border-line rounded-3xl p-4 shadow-sm flex items-center justify-between">
             <div>
                <p className="text-xs text-muted font-medium">Total Cost</p>
                <p className="text-2xl font-bold text-main">₦{selectedService.price.toFixed(2)}</p>
             </div>
+            {/* Using btn-primary class which now uses your new Blue theme */}
             <ButtonWithLoader 
                loading={isLoading}
                initialText="Get Number"
                loadingText="Generating..."
-               className="bg-main text-background px-8 py-3 rounded-xl font-bold hover:opacity-90 transition-opacity shadow-lg"
+               className="btn-primary px-8 py-3 rounded-xl font-bold hover:shadow-lg"
                onClick={handlePurchase}
             />
           </div>
         </div>
 
-        {/* Recent Activity */}
         {!activeOrder && (
           <div className="pb-4">
             <h3 className="font-bold text-lg mb-4">Recent Activity</h3>

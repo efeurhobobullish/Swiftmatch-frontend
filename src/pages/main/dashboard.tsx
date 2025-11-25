@@ -5,7 +5,6 @@ import {
   Search,
   CheckCircle2,
   Smartphone,
-  ArrowRight,
   Loader2,
   Copy,
   Clock,
@@ -15,14 +14,15 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import BottomNav from "@/layouts/BottomNav";
-import { ModeToggle, ButtonWithLoader, WalletCard } from "@/components/ui";
+import { ModeToggle, ButtonWithLoader } from "@/components/ui";
+import WalletCard from "@/components/WalletCard";
 
 import { ALL_COUNTRIES, ALL_SERVICES } from "@/constants/data";
 import type { Country, Service } from "@/constants/data";
+import { useAuth } from "@/hooks/useAuth"; // Import hook for logic check
 
 export default function Dashboard() {
-  // Local state for balance calculation (separate from WalletCard display for purchase logic)
-  const [localBalance, setLocalBalance] = useState(12500.00);
+  const { user } = useAuth(); // Get user data for logic
   const [totalNumbers, setTotalNumbers] = useState(42); 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -48,10 +48,17 @@ export default function Dashboard() {
       toast.error("You already have an active number. Finish that first.");
       return;
     }
+
+    // Use the user.wallet from the hook for the check
+    if (user.wallet < selectedService.price) {
+      toast.error("Insufficient balance. Please fund your wallet.");
+      return;
+    }
+
     setIsLoading(true);
+
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    setLocalBalance(prev => prev - selectedService.price);
     setTotalNumbers(prev => prev + 1);
 
     const newOrder = {
@@ -107,7 +114,7 @@ export default function Dashboard() {
 
       <main className="layout pt-6 space-y-8">
 
-        {/* NEW WALLET CARD */}
+        {/* WALLET CARD */}
         <motion.div 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -340,6 +347,7 @@ export default function Dashboard() {
         )}
 
       </main>
+
       <BottomNav />
     </div>
   );

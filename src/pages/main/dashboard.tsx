@@ -290,7 +290,7 @@ export default function Dashboard() {
                  
                  <div className="space-y-4 mb-8">
                     <div className="flex justify-between text-sm items-center">
-                       <span className="text-muted flex items-center gap-2"><serviceParam?.icon size={14}/> Service</span>
+                       <span className="text-muted flex items-center gap-2"><Search size={14}/> Service</span>
                        <span className="font-medium flex items-center gap-2">
                          <selectedService.icon size={14} className="text-muted"/> 
                          {selectedService.name}

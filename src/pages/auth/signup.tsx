@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { Eye, EyeOff, Mail, User, Lock, Zap, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, Mail, User, Lock, Zap } from "lucide-react";
 import { ButtonWithLoader, ModeToggle, Pattern } from "@/components/ui";
 
 export default function Signup() {

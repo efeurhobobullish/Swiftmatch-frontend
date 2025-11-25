@@ -49,7 +49,7 @@ export default function Header() {
           {!isDashboard && !isProfile && (
             <button
               onClick={() => navigate(-1)}
-              className="h-10 w-10 rounded-full dark:bg-secondary bg-background border border-line center hover:bg-secondary/80 transition-colors"
+              className="h-10 w-10 rounded-full bg-background border border-line center hover:bg-secondary transition-colors"
               title="Go back"
             >
               <ChevronLeft size={20} />
@@ -59,7 +59,7 @@ export default function Header() {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="h-10 w-10 bg-sky-500 rounded-full center overflow-hidden shadow-sm border-2 border-background hover:border-line transition-colors"
+                className="h-10 w-10 bg-primary rounded-full center overflow-hidden shadow-sm border-2 border-background hover:border-line transition-colors"
                 title="Profile menu"
               >
                 <img
@@ -71,10 +71,10 @@ export default function Header() {
 
               {/* Dropdown Menu */}
               {isDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-background border border-line rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200 origin-top-left">
+                <div className="absolute top-full left-0 mt-2 w-48 bg-card border border-line rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200 origin-top-left">
                   <button
                     onClick={handleProfileClick}
-                    className="w-full text-left px-4 py-3 text-sm hover:bg-secondary flex items-center gap-3 transition-colors text-main"
+                    className="w-full text-left px-4 py-3 text-sm hover:bg-secondary flex items-center gap-3 transition-colors text-card-foreground"
                   >
                     <User size={16} />
                     Profile
@@ -82,7 +82,7 @@ export default function Header() {
 
                   <button
                     onClick={handleSettingsClick}
-                    className="w-full text-left px-4 py-3 text-sm hover:bg-secondary flex items-center gap-3 transition-colors text-main"
+                    className="w-full text-left px-4 py-3 text-sm hover:bg-secondary flex items-center gap-3 transition-colors text-card-foreground"
                   >
                     <Settings size={16} />
                     Settings
@@ -104,7 +104,7 @@ export default function Header() {
           {isProfile && (
             <button
               onClick={() => navigate(-1)}
-              className="h-10 w-10 rounded-full dark:bg-secondary bg-background border border-line center hover:bg-secondary/80 transition-colors"
+              className="h-10 w-10 rounded-full bg-background border border-line center hover:bg-secondary transition-colors"
               title="Go back"
             >
               <ChevronLeft size={20} />
